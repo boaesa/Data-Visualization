@@ -229,7 +229,7 @@ const Heatmap = () => {
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm mt-1">
             <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-slate-100 border border-slate-200" /> 빈칸: 해당 시기 데이터 없음</div>
-            <div className="flex items-center gap-1.5 text-slate-500">| 2025년 / 2035년 기점 가로 구분 선 반영</div>
+            <div className="flex items-center gap-1.5 text-slate-500">| <span className="font-bold text-slate-700">산업별 취업자 수</span> 기반</div>
           </div>
         </div>
       </div>

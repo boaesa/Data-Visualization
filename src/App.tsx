@@ -3,7 +3,8 @@ import {
   BarChart3, 
   BrainCircuit, 
   Briefcase, 
-  ChevronRight, 
+  ChevronRight,
+  ChevronDown,
   Clock, 
   Database, 
   LineChart, 
@@ -41,28 +42,37 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex flex-col justify-center items-center px-6 overflow-hidden">
+      <section className="relative flex flex-col items-center overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-blue-50 to-transparent blur-3xl -z-10 rounded-full opacity-70"></div>
         
-        <div className="max-w-5xl mx-auto text-center w-full">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 font-medium text-[16px] mb-8 border border-blue-100">
-            <span>AI 시대 생존 가이드 보고서</span>
+        <div className="w-full min-h-[calc(100vh-64px)] flex flex-col justify-center items-center px-6">
+          <div className="max-w-5xl mx-auto text-center w-full">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 font-medium text-[14px] md:text-[15px] mb-12 border border-slate-200 shadow-sm">
+              <span>AI 시대 생존 가이드 보고서</span>
+            </div>
+            
+            <h1 className="text-[52px] sm:text-[72px] md:text-[100px] lg:text-[110px] font-black tracking-tighter text-slate-900 mb-0" style={{ lineHeight: 'calc(1.05em + 10px)' }}>
+              AI 시대에서 <br />
+              <span className="text-blue-600 tracking-tighter">
+                내 밥그릇 지키기
+              </span>
+            </h1>
           </div>
-          
-          <h1 className="text-[44px] md:text-[64px] font-bold tracking-tight text-slate-900 mb-11 leading-[1.25]">
-            AI 시대에서 <br />
-            <span className="text-blue-600">
-              내 밥그릇 지키기
-            </span>
-          </h1>
-          
-          <div className="max-w-2xl mx-auto text-[16px] md:text-[20px] text-slate-600 mb-20 leading-relaxed">
-            <p className="mb-[10px] text-slate-900 font-semibold">
-              "역사는 반복된다. 직업의 역사 또한 그러하다."
+        </div>
+
+        <div className="w-full px-6 pb-40 pt-10">
+          <div className="max-w-3xl mx-auto text-center text-[16px] md:text-[18px] text-slate-600 leading-[1.8]">
+            <p className="mb-8 text-slate-900 font-bold text-[20px] md:text-[22px]">
+              역사는 반복된다. 직업의 역사 또한 그러하다.
+            </p>
+            <p className="mb-6">
+              AI 시대가 성큼 다가오면서 미래를 준비하는 2030세대의 불안도 함께 커지고 있습니다. <br className="hidden md:block"/>
+              '내가 선택한 직업이 사라지면 어떡하지?', '나는 AI에게 대체될까?' 누구나 한 번쯤 이런 걱정을 해본 적 있을 것입니다.
             </p>
             <p>
-              AI 기술의 급속한 발전 속에서 불안을 느끼는 2030 '레디코어(Ready-Core)' 세대를 위해, 대한민국 정부 수립 이후의 직업 변천 데이터를 분석하여 미래를 설계할 수 있는 인사이트를 제공합니다.
+              본 프로젝트는 그 막연한 불안에 조금이나마 답이 되고자 합니다. <br className="hidden md:block"/>
+              대한민국의 산업 및 직업 데이터를 바탕으로 변화하는 세상을 함께 읽어봅니다.
             </p>
           </div>
         </div>
