@@ -849,7 +849,7 @@ const Heatmap = () => {
       {/* ───────────────────────────────────────────────────────── */}
       {/* 1. Job List Section */}
       {/* ───────────────────────────────────────────────────────── */}
-      <section id="job-list" className="relative z-40 bg-white/95 backdrop-blur w-full flex flex-col border-b border-slate-200 pt-3 h-[250px] shrink-0 shadow-sm">
+      <section id="job-list" className="relative z-40 bg-white/95 backdrop-blur w-full flex flex-col border-b border-slate-200 pt-3 min-h-[calc(100vh-64px)] shrink-0 shadow-sm">
         <div className="w-full px-2 md:px-4 mb-2 flex justify-center items-center max-w-7xl mx-auto relative min-h-[28px]">
           <div className="absolute left-2 md:left-4">
              <p className="text-[10px] md:text-[11px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
@@ -861,8 +861,19 @@ const Heatmap = () => {
         </div>
 
         <div className="w-full flex-1 overflow-y-auto px-2 relative z-40 custom-scrollbar mb-1">
+          <div className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 pb-2 mb-2 w-full pt-1">
+            <div className="grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] gap-0 w-full">
+              <div className="text-slate-500 text-[9px] md:text-xs font-bold flex items-center justify-center border-r border-transparent"></div>
+              {INDUSTRIES.map(ind => (
+                <div key={`job-header-${ind.id}`} className="text-slate-900 text-[8px] md:text-xs font-bold text-center flex flex-col items-center justify-center px-0.5 break-keep leading-tight">
+                  {ind.name}
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Jobs Grid */}
-          <div className="grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] gap-0 w-full h-full pb-2">
+          <div className="grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] gap-0 w-full pb-2 min-h-full">
             <div className="border-r border-slate-200" />
             {INDUSTRIES.map(ind => {
               const allJobs = filteredSidebarJobs.filter(j => j.industry === ind.name);
@@ -896,7 +907,7 @@ const Heatmap = () => {
         
         {/* Timeline Industry Columns Header (Sticky inside timeline) */}
         <div className="w-full px-2 bg-white/95 backdrop-blur-md border-b border-t border-slate-200 pt-2 pb-2 z-50 sticky top-[64px] shadow-sm">
-          <div className="grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] gap-0 w-full">
+          <div className="grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] gap-0 w-full">
             <div className="text-slate-500 text-[9px] md:text-xs font-bold flex items-center justify-center border-r border-slate-200">연도</div>
             {INDUSTRIES.map(ind => (
               <div key={`header-${ind.id}`} className="text-slate-900 text-[8px] md:text-xs font-bold text-center flex flex-col items-center justify-center px-0.5 break-keep leading-tight">
@@ -982,7 +993,7 @@ const Heatmap = () => {
               return (
                 <React.Fragment key={d.year}>
                   {isSplit2022 && (
-                    <div className="grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] w-full h-[60px] md:h-[80px] relative">
+                    <div className="grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] w-full h-[60px] md:h-[80px] relative">
                       <div className="border-r border-slate-200 h-full" />
                       {INDUSTRIES.map(ind => (
                         <div key={`split-${ind.id}`} className="border-r border-slate-100 h-full" />
@@ -990,7 +1001,7 @@ const Heatmap = () => {
                       <div className="absolute inset-0 pointer-events-none">
                         <div className="absolute top-1/2 left-0 w-full border-t border-dashed border-slate-300 -translate-y-1/2" />
                       </div>
-                      <div className="absolute inset-0 pointer-events-none grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] items-center">
+                      <div className="absolute inset-0 pointer-events-none grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] items-center">
                         <div className="col-start-6 col-end-8 px-1 flex">
                           <span className="bg-white w-full text-center z-10 text-slate-800 font-bold text-[10px] sm:text-xs md:text-sm border border-slate-200 rounded-full py-1.5 shadow-sm truncate">
                             2022년 ChatGPT 등장
@@ -1000,7 +1011,7 @@ const Heatmap = () => {
                     </div>
                   )}
 
-                  <div data-year={d.year} className="grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] w-full group/row cursor-crosshair">
+                  <div data-year={d.year} className="grid grid-cols-[50px_repeat(10,minmax(0,1fr))] md:grid-cols-[60px_repeat(10,minmax(0,1fr))] w-full group/row cursor-crosshair">
                     <div className="border-r border-slate-200 flex items-center justify-center relative" style={{ minHeight: `${minRowHeight}px` }}>
                       {shouldShowYear(d.year) && (
                         <span className="z-10 text-slate-500 text-[9px] md:text-xs bg-white px-1 whitespace-nowrap font-medium">
