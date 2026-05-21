@@ -803,6 +803,7 @@ const ALL_SIDEBAR_JOBS = buildSidebarJobs();
 
 const Heatmap = () => {
   const [cutoffYear, setCutoffYear] = useState<number>(0);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -836,7 +837,11 @@ const Heatmap = () => {
     return true;
   };
 
-  const sidebarRemaining = ALL_SIDEBAR_JOBS.filter(j => j.year >= cutoffYear);
+  let filteredSidebarJobs = ALL_SIDEBAR_JOBS;
+  if (activeFilter) {
+    filteredSidebarJobs = filteredSidebarJobs.filter(j => j.status === activeFilter);
+  }
+  const sidebarRemaining = filteredSidebarJobs.filter(j => j.year >= cutoffYear);
 
   return (
     <div className="bg-white w-full min-h-screen text-slate-900 font-sans m-0 p-0 flex flex-col relative">
@@ -860,7 +865,7 @@ const Heatmap = () => {
           <div className="grid grid-cols-[50px_repeat(10,1fr)] md:grid-cols-[60px_repeat(10,1fr)] gap-0 w-full h-full pb-2">
             <div className="border-r border-slate-200" />
             {INDUSTRIES.map(ind => {
-              const allJobs = ALL_SIDEBAR_JOBS.filter(j => j.industry === ind.name);
+              const allJobs = filteredSidebarJobs.filter(j => j.industry === ind.name);
               return (
                 <div key={`jobs-${ind.id}`} className="border-r border-slate-100 flex flex-col gap-1 px-0.5 md:px-1 pt-1 justify-end">
                   {allJobs.map((j, i) => {
@@ -909,19 +914,53 @@ const Heatmap = () => {
         </div>
 
         <div className="w-full flex justify-center mb-12">
-          <div className="flex flex-col items-start gap-2 bg-slate-50 p-4 rounded-md border border-slate-200">
-            <div className="flex flex-wrap items-center gap-4 text-sm">
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(248,105,107,0.5)]" /> 1점: 역대 최저권</div>
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(251,170,119,0.5)]" /> 2점: 하위권</div>
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(255,235,132,0.5)]" /> 3점: 중간권</div>
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(177,213,128,0.5)]" /> 4점: 상위권</div>
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(99,190,123,0.5)]" /> 5점: 역대 최고권</div>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 text-sm mt-1">
-              <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-slate-100 border border-slate-200" /> 빈칸: 해당 시기 데이터 없음</div>
-              <div className="flex items-center gap-1.5 text-slate-500">
-                | <span className="font-bold text-slate-700">산업별 취업자 수</span> 기반
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-start gap-2 bg-slate-50 p-4 rounded-md border border-slate-200">
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(248,105,107,0.5)]" /> 1점: 역대 최저권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(251,170,119,0.5)]" /> 2점: 하위권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(255,235,132,0.5)]" /> 3점: 중간권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(177,213,128,0.5)]" /> 4점: 상위권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(99,190,123,0.5)]" /> 5점: 역대 최고권</div>
               </div>
+              <div className="flex flex-wrap items-center gap-4 text-sm mt-1">
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-slate-100 border border-slate-200" /> 빈칸: 해당 시기 데이터 없음</div>
+                <div className="flex items-center gap-1.5 text-slate-500">
+                  | <span className="font-bold text-slate-700">산업별 취업자 수</span> 기반
+                </div>
+              </div>
+            </div>
+            
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+              <span className="text-sm font-semibold text-slate-600 mr-2">칩 필터:</span>
+              <button 
+                onClick={() => setActiveFilter(null)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                  activeFilter === null 
+                    ? 'bg-slate-800 text-white border-slate-800 shadow-sm' 
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                전체
+              </button>
+              {Object.keys(STATUS_STYLE).map(statusName => {
+                const ss = STATUS_STYLE[statusName];
+                const isActive = activeFilter === statusName;
+                return (
+                  <button
+                    key={statusName}
+                    onClick={() => setActiveFilter(statusName)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                      isActive 
+                        ? ss.pill.split(' ')[0] + ' ' + ss.pill.split(' ')[1] + ' ' + ss.pill.split(' ')[2] + ' shadow-sm' 
+                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    {statusName}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -976,7 +1015,10 @@ const Heatmap = () => {
                       const event = eventsInThisYear.find(ev => ev.industry === ind.name);
                       const hasImage = event?.img && event.img.trim() !== '';
 
-                      const jobsHere = JOB_MAP[`${ind.name}|${d.year}`] ?? [];
+                      let jobsHere = JOB_MAP[`${ind.name}|${d.year}`] ?? [];
+                      if (activeFilter) {
+                        jobsHere = jobsHere.filter(j => j.status === activeFilter);
+                      }
                       const showJobs = d.year <= cutoffYear && jobsHere.length > 0;
 
                       return (
