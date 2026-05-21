@@ -36,7 +36,7 @@ export default function App() {
             <a href="#industry-training" className="hover:text-blue-600 transition-colors">훈련 현황</a>
             <a href="#future" className="hover:text-blue-600 transition-colors">유망 분야</a>
             <a href="#timeline" className="hover:text-blue-600 transition-colors">일자리 타임라인</a>
-            <a href="#mbti-test" className="hover:text-blue-600 transition-colors">CAVE 검사</a>
+            <a href="#mbti-test" className="text-blue-500 font-bold hover:text-blue-600 transition-colors">AI시대 나의 일자리 유형</a>
           </div>
         </div>
       </nav>
@@ -93,7 +93,7 @@ export default function App() {
               </div>
               <h3 className="text-[20px] font-bold mb-3 leading-[1.25]">현상</h3>
               <p className="text-slate-600 leading-relaxed">
-                AI 기술의 비약적 발전과 고용 시장의 불확실성이 그 어느 때보다 증대되고 있는 시점입니다.
+                하루가 다르게 발전하는 AI 기술은 일부 직무에서 인간을 대체하기 시작했고, 그로 인해 고용 시장의 불안정성과 불확실성이 이전 세대와는 전혀 다른 방식으로 나타나고 있습니다.
               </p>
             </div>
             
@@ -103,7 +103,7 @@ export default function App() {
               </div>
               <h3 className="text-[20px] font-bold mb-3 leading-[1.25]">타겟</h3>
               <p className="text-slate-600 leading-relaxed">
-                실패를 최소화하기 위해 선제적으로 치밀하게 준비하고 대응하는 2030 '레디코어' 세대.
+                불안한 상황 속에서도 실패를 최소화하기 위해 선제적으로, 치밀하게 준비하고 대응하는 2030 '레디코어' 세대.
               </p>
             </div>
 
@@ -113,7 +113,7 @@ export default function App() {
               </div>
               <h3 className="text-[20px] font-bold mb-3 leading-[1.25]">목표</h3>
               <p className="text-slate-600 leading-relaxed">
-                1~4차 산업혁명기 한국의 직업 변천 데이터를 통해 패턴을 도출하고 5차 산업혁명 핵심 역량을 정의합니다.
+                대한민국 정부 수립 이후, 1~4차 산업혁명을 거치며 변화해온 산업 및 직업 데이터를 활용해 변화의 패턴을 도출합니다. 이를 바탕으로 5차 산업혁명 시대의 흐름에 적용해, 새로운 시대에 필요한 핵심 역량을 정의합니다.
               </p>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function App() {
       <section id="competency-analysis" className="py-24 px-6 bg-slate-50 border-t border-slate-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-blue-600 font-semibold tracking-wider text-[14px] uppercase">Competency Shift</span>
+            <span className="text-blue-600 font-semibold tracking-wider text-[16px] uppercase">Competency Shift</span>
             <h2 className="text-[28px] md:text-[36px] font-bold mt-2 leading-[1.25] text-slate-900">AI 시대 미래 역량 분석</h2>
             <p className="text-slate-500 mt-4 max-w-2xl mx-auto">
               생성형 AI 확산과 융복합 직무 확대에 대응하여 실무 중심으로 정교화된 역량 및 개편 사항을 살펴봅니다.
@@ -229,7 +229,7 @@ export default function App() {
       <section id="industry-training" className="py-24 px-6 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-indigo-600 font-semibold tracking-wider text-[14px] uppercase">Industry Training Analysis</span>
+            <span className="text-indigo-600 font-semibold tracking-wider text-[16px] uppercase">Industry Training Analysis</span>
             <h2 className="text-[28px] md:text-[36px] font-bold mt-2 leading-[1.25] text-slate-900">산업분류별 훈련 현황 분석</h2>
             <p className="text-slate-500 mt-4 max-w-2xl mx-auto">
               총 10,225개 과정 데이터를 바탕으로 분석한 교육 균형 상태와 전략적 공백(Gap)
@@ -288,7 +288,7 @@ export default function App() {
                <div className="bg-[#FFF8F8] border border-red-100 rounded-3xl p-8">
                  <h3 className="text-[18px] font-bold text-red-700 mb-4 flex items-center gap-2">
                    <Target className="w-5 h-5 text-red-500" />
-                   전략적 인력 양성 공백 지역 (Critical Gap)
+                   블루오션 사각지대 (Critical Gap)
                  </h3>
                  <p className="text-[14px] text-red-800/80 mb-6">
                    미래 수요가 폭발할 국가 핵심 기술 분야임에도 인프라가 극히 빈약한 초희소성 구역
@@ -299,14 +299,14 @@ export default function App() {
                        <span className="font-bold text-slate-900 text-[16px]">보건·의료</span>
                        <span className="text-red-500 font-bold">0.5% (53개)</span>
                      </div>
-                     <p className="text-[13px] text-slate-600">초고령사회 진입에 따른 폭발적 돌봄/의료 수요 대비 훈련 설계가 지극히 미흡합니다.</p>
+                     <p className="text-[13px] text-slate-600">초고령화 사회로 접어들면서 돌봄·의료 수요는 폭발적으로 증가하고 있지만, 이를 뒷받침할 훈련 설계는 아직 매우 미흡한 상태입니다.</p>
                    </div>
                    <div className="bg-white p-5 rounded-2xl border border-red-100 shadow-sm">
                      <div className="flex items-center justify-between mb-2">
                        <span className="font-bold text-slate-900 text-[16px]">화학·바이오</span>
                        <span className="text-red-500 font-bold">0.2% (19개)</span>
                      </div>
-                     <p className="text-[13px] text-slate-600">국가 생존 직결 전략 산업이나 훈련 최하위권. 전문 기술자의 희소성이 압도적일 것입니다.</p>
+                     <p className="text-[13px] text-slate-600">대한민국의 생존과 직결된 전략 산업임에도, 전문 기술 인력의 극심한 부족으로 직업 훈련 수준은 최하위권에 머물고 있습니다.</p>
                    </div>
                  </div>
                </div>
@@ -315,25 +315,25 @@ export default function App() {
                <div className="bg-indigo-50 border border-indigo-100 rounded-3xl p-8 flex-1">
                  <h3 className="text-[18px] font-bold text-indigo-900 mb-4 flex items-center gap-2">
                    <Lightbulb className="w-5 h-5 text-indigo-600" />
-                   상태 데이터 인사이트
+                   데이터로 읽는 취업 시장의 신호
                  </h3>
                  <ul className="space-y-4">
                    <li className="flex gap-3">
                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0"></div>
                      <p className="text-[14px] text-indigo-900/80 leading-relaxed">
-                       <strong className="text-indigo-900">훈련의 양극화:</strong> 상위 3개(경영, 기계, IT)가 44.7% 독식 중. 수요를 따라가느냐, 희소성을 노리느냐의 기로입니다.
+                       <strong className="text-indigo-900">쏠림인가, 기회인가:</strong> 상위 3개 분야(경영·기계·IT)가 전체의 절반 가까이를 차지합니다. 다수를 따를지, 틈새를 공략할지 — 선택할 기회가 주어집니다.
                      </p>
                    </li>
                    <li className="flex gap-3">
                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0"></div>
                      <p className="text-[14px] text-indigo-900/80 leading-relaxed">
-                       <strong className="text-indigo-900">블루오션 기회:</strong> 보건·바이오 분야는 과정이 1%도 되지 않는 사각지대입니다. 개척자에게 무한한 기회가 존재합니다.
+                       <strong className="text-indigo-900">아직 아무도 없는 땅:</strong> 보건·바이오는 전체 훈련 과정의 1%도 되지 않습니다. 먼저 들어간 사람이 가장 유리한 분야입니다.
                      </p>
                    </li>
                    <li className="flex gap-3">
                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0"></div>
                      <p className="text-[14px] text-indigo-900/80 leading-relaxed">
-                       <strong className="text-indigo-900">디지털 전이의 본질:</strong> 정보통신(9.6%) 비중은 IT 자체 산업뿐만 아니라 전 산업군이 융합 필수재로 인식하고 있음을 보여줍니다.
+                       <strong className="text-indigo-900">IT는 이미 모든 곳에:</strong> 정보통신(9.6%)의 높은 비중은 IT업계만의 이야기가 아닙니다. 모든 산업이 디지털 인재를 원하고 있다는 신호입니다.
                      </p>
                    </li>
                  </ul>
@@ -404,10 +404,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section id="timeline" className="bg-white overflow-hidden w-full m-0 p-0">
-        <Heatmap />
-      </section>
+      {/* Job List & Timeline Rendered via Heatmap */}
+      <Heatmap />
 
 
       {/* Analysis Framework (Bento Box) */}
@@ -417,7 +415,7 @@ export default function App() {
             <span className="text-indigo-400 font-semibold tracking-wider text-[16px] uppercase">Analysis Framework</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 mb-4 leading-[1.25]">직업의 생태계 변화 패턴</h2>
             <p className="text-slate-400 max-w-2xl">
-              데이터를 통해 도출한 산업혁명 단계별 직업의 생성, 소멸 그리고 이동 패턴입니다.
+              데이터를 통해 도출한 산업혁명 단계별 직업의 등장, 소멸 그리고 이동 패턴입니다.
             </p>
           </div>
 
@@ -454,7 +452,7 @@ export default function App() {
                <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6">
                 <Sparkles className="w-6 h-6 text-emerald-400" />
               </div>
-              <h3 className="text-[20px] font-bold mb-2 leading-[1.25]">생성 직업</h3>
+              <h3 className="text-[20px] font-bold mb-2 leading-[1.25]">등장 직업</h3>
               <p className="text-[16px] font-medium text-emerald-400 mb-6">Created</p>
               
               <div className="flex-grow">
