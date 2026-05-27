@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 // ─────────────────────────────────────────────
 // 16문항 데이터
@@ -27,7 +27,7 @@ const QUESTIONS = [
 // ─────────────────────────────────────────────
 const TYPES: any = {
   WFLD: {
-    name: "불지핀 개척자", eng: "Story Pioneer",
+    name: "행동파 개척자", eng: "Story Pioneer",
     emoji: "🔥", color: "from-orange-500 to-red-600",
     tagline: "이야기로 길을 열고, 혼자 깊이 파고들어 세상에 없던 것을 만드세요",
     desc: "이야기 하나로 사람의 마음을 움직이고, 아직 아무도 가보지 않은 길에 가장 먼저 뛰어드시는 분입니다. 혼자 구조를 설계하고 그 위에 나만의 이야기를 쌓아가는 독립형 창작 전문가예요. AI 시대에 '나만의 세계관'을 가진 사람이 살아남는다는 걸 본능적으로 느끼시는 유형입니다.",
@@ -41,7 +41,7 @@ const TYPES: any = {
     ],
   },
   WFLN: {
-    name: "판 만드는 사람", eng: "Scene Builder",
+    name: "빅픽처 기획자", eng: "Scene Builder",
     emoji: "✨", color: "from-pink-500 to-orange-400",
     tagline: "이야기로 사람을 끌어모으고, 누구보다 빠르게 새로운 판을 만드세요",
     desc: "이야기로 사람을 끌어모으고, 논리로 구조를 만들고, 넓은 인맥과 네트워크로 굴리는 분입니다. 커뮤니티·미디어·플랫폼에서 자연스럽게 중심이 되는 유형이에요. 아이디어를 혼자 쌓기보다 퍼뜨리는 데서 에너지가 생기고, 사람이 많은 곳이 곧 일터이자 놀이터인 분입니다.",
@@ -55,7 +55,7 @@ const TYPES: any = {
     ],
   },
   WFRD: {
-    name: "첫 번째 공감자", eng: "Empathy First",
+    name: "프로공감러", eng: "Empathy First",
     emoji: "💫", color: "from-rose-400 to-pink-600",
     tagline: "누구보다 먼저 마음을 열고, 한 사람과 진짜 신뢰를 쌓으세요",
     desc: "새로운 환경에서 가장 빨리 사람들의 마음을 여는 분입니다. 논리보다 공감이 먼저이고, 이야기로 관계를 시작해 혼자 깊이 신뢰를 쌓아가는 유형이에요. AI가 아직 흉내 내지 못하는 '진짜 온기'를 가지고 계신 분으로, 현장에서 사람과 직접 만나는 일에서 가장 빛나십니다.",
@@ -69,7 +69,7 @@ const TYPES: any = {
     ],
   },
   WFRN: {
-    name: "분위기 설계자", eng: "Vibe Architect",
+    name: "분위기메이커", eng: "Vibe Architect",
     emoji: "🌟", color: "from-fuchsia-500 to-rose-400",
     tagline: "사람들 사이에서 빛나고, 분위기를 만들며 함께 더 멀리 가세요",
     desc: "어디든 먼저 뛰어들고, 들어가는 순간 그 공간의 분위기를 만들어버리는 분입니다. 이야기와 공감으로 여러 사람을 하나로 묶고, 그 에너지를 넓은 인맥으로 이어가는 유형이에요. 혼자 있으면 힘이 빠지고, 사람이 많을수록 능력이 올라오는 분입니다. AI 시대에도 사람이 모이는 이유를 만드는 역할은 이 유형의 몫입니다.",
@@ -83,7 +83,7 @@ const TYPES: any = {
     ],
   },
   WGLD: {
-    name: "신중한 언어의 장인", eng: "Precision Narrator",
+    name: "디테일 장인", eng: "Precision Narrator",
     emoji: "🎯", color: "from-teal-500 to-cyan-600",
     tagline: "충분히 확인한 다음에 말하고, 그래서 한 마디 한 마디가 믿음직합니다",
     desc: "충분히 검토하지 않으면 말하지 않으시는 분입니다. 한 번 입을 여시면 논리와 이야기가 동시에 담겨 있어요. 글쓰기·보고서·기획서에서 압도적인 완성도를 보이는 유형입니다. AI 시대에 검증된(확인된) 언어가 신뢰의 가장 중요한 자원이 되는 시대에 가장 오래 살아남을 유형 중 하나입니다.",
@@ -97,7 +97,7 @@ const TYPES: any = {
     ],
   },
   WGLN: {
-    name: "천천히 넓어지는 사람", eng: "Slow Expander",
+    name: "꾸준한 성장캐", eng: "Slow Expander",
     emoji: "🤝", color: "from-cyan-500 to-teal-400",
     tagline: "확인한 것만 연결하고, 그 연결이 오랫동안 단단하게 이어집니다",
     desc: "섣불리 움직이지 않으시지만, 일단 연결되면 단단히 묶이는 분입니다. 이야기로 신뢰를 쌓고, 논리로 협력 구조를 만들며, 넓은 인맥으로 영향력을 확장하는 유형이에요. '이 사람 말은 믿어도 된다'는 평판이 가장 큰 자산입니다.",
@@ -111,7 +111,7 @@ const TYPES: any = {
     ],
   },
   WGRD: {
-    name: "사람 곁에 오래 있는 사람", eng: "Deep Companion",
+    name: "든든한 서포터", eng: "Deep Companion",
     emoji: "🛡️", color: "from-emerald-500 to-teal-600",
     tagline: "천천히, 하지만 아주 깊이 신뢰를 쌓고 오래도록 곁에 있어 주세요",
     desc: "누군가의 이야기를 끝까지 들어주시는 분입니다. 섣불리 조언하지 않고, 충분히 파악한 다음에 말씀하시는 유형이에요. 화려하지 않지만 AI가 대체하기 가장 어려운 유형입니다. 돌봄·교육·상담처럼 '사람이 있어야 의미가 생기는' 영역에서 오래도록 필요한 분입니다.",
@@ -125,7 +125,7 @@ const TYPES: any = {
     ],
   },
   WGRN: {
-    name: "사람을 묶는 사람", eng: "Community Anchor",
+    name: "소통의 연결고리", eng: "Community Anchor",
     emoji: "🏛️", color: "from-green-500 to-emerald-600",
     tagline: "검증된 신뢰로 사람들을 하나로 묶고, 오래 지속되는 공동체를 만드세요",
     desc: "신중하게 판단하고, 공감으로 접근하며, 오래된 신뢰 위에서 공동체를 설계하시는 분입니다. 빠르게 움직이지는 않지만, 한 번 만들어진 조직과 공동체는 쉽게 흔들리지 않아요. AI 시대에도 '사람이 모이는 이유'를 만드는 일은 이 유형이 가장 잘하십니다.",
@@ -139,7 +139,7 @@ const TYPES: any = {
     ],
   },
   AFLD: {
-    name: "데이터로 먼저 달리는 사람", eng: "Data Pioneer",
+    name: "데이터 행동파", eng: "Data Pioneer",
     emoji: "🤖", color: "from-violet-600 to-purple-700",
     tagline: "숫자가 확신을 주면 누구보다 빠르게 뛰어들어 혼자 깊이 설계하세요",
     desc: "데이터(숫자·통계·수치)가 이거라고 말하는 순간, 주저 없이 실행하시는 분입니다. 혼자 깊이 분석하고, 구조를 직접 설계하며, 빠르게 시스템으로 만들어내는 유형이에요. AI 도구를 가장 잘 다루시는 유형으로, 결과로 모든 것을 증명하시는 분입니다.",
@@ -153,8 +153,8 @@ const TYPES: any = {
     ],
   },
   AFLN: {
-    name: "데이터로 세상을 전파하는 사람", eng: "Data Evangelist",
-    emoji: "📡", color: "from-blue-500 to-violet-600",
+    name: "데이터 이야기꾼", eng: "Data Evangelist",
+    emoji: "📡", color: "from-ui-bg-card0 to-violet-600",
     tagline: "숫자로 가치를 증명하고, 넓은 인맥으로 빠르게 세상에 퍼뜨리세요",
     desc: "데이터로 아이디어의 가치를 증명하고, 빠른 실행력으로 판을 만들며, 넓은 네트워크로 확산시키시는 분입니다. 기술과 비즈니스 사이 어딘가에 서 계신 유형이에요. 데이터를 기반으로 하지만 혼자 분석에만 머물지 않고, 그 결과를 가장 빨리, 가장 넓게 퍼뜨리는 데서 에너지가 생기시는 분입니다.",
     survival: "스타트업 사업 개발, 성장(그로스) 마케팅, 테크 미디어 운영 분야에서 숫자로 설득하고 사람으로 퍼뜨리는 이 유형의 방식이 가장 빠르게 보상받습니다. 데이터가 있으면 설득이 쉬워지고, 네트워크가 있으면 확산이 빨라집니다.",
@@ -167,8 +167,8 @@ const TYPES: any = {
     ],
   },
   AFRD: {
-    name: "숫자로 사람을 이해하는 사람", eng: "Human Data Reader",
-    emoji: "💡", color: "from-indigo-500 to-blue-600",
+    name: "팩트 기반 공감러", eng: "Human Data Reader",
+    emoji: "💡", color: "from-indigo-500 to-brand-main",
     tagline: "데이터 뒤에 있는 사람의 마음을 읽고, 그것을 서비스로 만드세요",
     desc: "숫자를 보면 그 안에 사람이 보이시는 분입니다. 데이터로 문제를 발견하고, 공감과 관계로 해결책을 만드는 유형이에요. 빠르게 현장에 뛰어들어 사용자를 직접 만나고, 그 경험을 혼자 깊이 분석하시는 분입니다. AI 시대에 '기계가 놓치는 사람의 맥락(상황과 감정)'을 잡아내는 역할입니다.",
     survival: "사용자 경험(UX) 연구, 서비스 기획, 개인화 서비스 설계 분야에서 강점을 가지고 계십니다. 데이터가 넘쳐날수록 그 뒤에 있는 사람을 읽는 이 유형의 능력이 더 희귀해지고 더 중요해집니다.",
@@ -181,7 +181,7 @@ const TYPES: any = {
     ],
   },
   AFRN: {
-    name: "데이터로 사람을 연결하는 사람", eng: "Data Connector",
+    name: "데이터 헤드헌터", eng: "Data Connector",
     emoji: "🔗", color: "from-sky-500 to-indigo-500",
     tagline: "숫자로 방향을 잡고, 사람과 사람을 연결해 더 큰 결과를 만드세요",
     desc: "데이터로 방향을 잡고, 빠르게 실행하며, 관계와 네트워크로 시너지(1+1이 2 이상이 되는 효과)를 만들어내시는 분입니다. 수치 기반의 판단력과 사람 중심의 실행력이 결합된 덕분에, 데이터도 있고 사람도 따르는 드문 조합이에요. 조직에서 '저 사람이 없으면 안 된다'는 말을 자주 들으시는 유형입니다.",
@@ -195,7 +195,7 @@ const TYPES: any = {
     ],
   },
   AGLD: {
-    name: "틀리지 않는 설계자", eng: "Zero-Error Architect",
+    name: "팩트체커", eng: "Zero-Error Architect",
     emoji: "🏗️", color: "from-amber-500 to-orange-600",
     tagline: "틀릴 바에는 하지 않고, 한 번 만들면 오랫동안 흔들리지 않습니다",
     desc: "완벽하게 검증된 데이터로 완벽한 구조를 만드시는 분입니다. 빠르지는 않지만 정확하고, 화려하지는 않지만 무너지지 않아요. 시스템과 구조에서 매력을 느끼시는 유형입니다. AI가 설계를 도와주는 시대에, 그 AI가 만든 것을 가장 냉철하게 검증하고 개선하는 역할을 맡으실 분입니다.",
@@ -209,7 +209,7 @@ const TYPES: any = {
     ],
   },
   AGLN: {
-    name: "기준을 만드는 사람", eng: "Standard Maker",
+    name: "룰 설계자", eng: "Standard Maker",
     emoji: "📐", color: "from-yellow-500 to-amber-600",
     tagline: "검증된 기준 하나가 업계 전체의 표준이 되고, 그 기준이 오래 남습니다",
     desc: "데이터로 검증하고, 논리로 구조를 세우고, 그 구조를 업계 표준(모두가 따르는 기준)으로 만드시는 분입니다. 느리지만 한 번 만들면 오래가는 기준을 제시하는 유형이에요. AI 시대에 'AI를 어떻게 써야 하는가'에 대한 기준을 만드는 역할이 이 유형의 핵심 생존 전략입니다.",
@@ -223,7 +223,7 @@ const TYPES: any = {
     ],
   },
   AGRD: {
-    name: "AI가 틀릴 때 맞는 사람", eng: "Human Verifier",
+    name: "AI 심판관", eng: "Human Verifier",
     emoji: "🔍", color: "from-lime-500 to-yellow-500",
     tagline: "AI가 놓친 것을 사람의 눈으로 잡아내고, 신뢰를 기반으로 판단하세요",
     desc: "데이터를 꼼꼼히 검토하고, 사람과의 신뢰를 바탕으로 최종 판단을 내리시는 분입니다. 빠른 결정보다 정확한 결정이 우선이고, 혼자 깊이 파고드는 분석력이 최대 무기예요. AI가 만들어낸 결과물에서 오류와 편향(잘못된 방향으로 치우침)을 잡아내는 역할을 하시는 분입니다.",
@@ -237,7 +237,7 @@ const TYPES: any = {
     ],
   },
   AGRN: {
-    name: "AI와 사람 사이 통역사", eng: "Human-AI Bridge",
+    name: "AI 통역사", eng: "Human-AI Bridge",
     emoji: "🌐", color: "from-green-400 to-lime-500",
     tagline: "AI가 무엇을 할 수 있는지 알고, 사람이 무엇을 원하는지 알아서 둘을 연결하세요",
     desc: "데이터로 AI의 가능성을 읽고, 신중하게 검증하며, 사람 사이의 신뢰로 조직에 AI를 안착시키시는 분입니다. 기술과 조직 사이, 데이터와 감정 사이에서 양쪽을 이해하는 드문 유형이에요. AI 도입이 실패하는 이유의 대부분은 기술이 아니라 '사람'이라는 걸 아시는 분입니다. 지금 가장 빠르게 수요가 늘고 있는 유형입니다.",
@@ -387,10 +387,10 @@ const JOBS: any = {
 };
 
 const STEP_INFO = [
-  { step: 1, axis: "W / A", label: "말하기 방식", color: "text-blue-500" },
-  { step: 2, axis: "F / G", label: "변화 태도",   color: "text-teal-600"  },
-  { step: 3, axis: "L / R", label: "문제 해결",   color: "text-violet-600"},
-  { step: 4, axis: "D / N", label: "가치 창출",   color: "text-amber-600" },
+  { step: 1, axis: "W / A", label: "말하기 방식", color: "text-brand-extinction", bgColor: "bg-brand-extinction", bgOff: "bg-brand-extinction/30", textOff: "text-brand-extinction/60" },
+  { step: 2, axis: "F / G", label: "변화 태도",   color: "text-brand-appearance", bgColor: "bg-brand-appearance", bgOff: "bg-brand-appearance/30", textOff: "text-brand-appearance/60" },
+  { step: 3, axis: "L / R", label: "문제 해결",   color: "text-brand-spread", bgColor: "bg-brand-spread", bgOff: "bg-brand-spread/30", textOff: "text-brand-spread/60" },
+  { step: 4, axis: "D / N", label: "가치 창출",   color: "text-brand-threat", bgColor: "bg-brand-threat", bgOff: "bg-brand-threat/30", textOff: "text-brand-threat/60" },
 ];
 
 export default function CAVETest() {
@@ -445,30 +445,30 @@ export default function CAVETest() {
 
 function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
-    <div className="bg-slate-50 text-slate-900 flex flex-col items-center justify-center px-4 py-24 min-h-screen">
+    <div className="bg-ui-bg-card text-ui-text-primary flex flex-col items-center justify-center px-4 py-24 min-h-screen">
       <div className="max-w-lg w-full mt-auto mb-auto">
         {/* 배지 */}
         <div className="flex justify-center mb-6">
-          <span className="text-[10px] sm:text-xs tracking-[0.3em] font-bold text-blue-500 uppercase border border-blue-500/20 bg-blue-500/5 px-4 py-1.5 rounded-full">
+          <span className="text-[10px] sm:text-xs tracking-[0.3em] font-bold text-brand-main uppercase border border-brand-main/20 bg-brand-spread/5 px-4 py-1.5 rounded-full">
             NCS 직업공통능력 기반 · AI 시대 적합도 진단
           </span>
         </div>
 
         {/* 로고 */}
         <div className="text-center mb-2">
-          <h1 className="text-7xl font-black tracking-tight text-slate-900 leading-none">CAVE</h1>
-          <p className="text-slate-500 font-medium text-sm mt-2 tracking-widest uppercase">
+          <h1 className="text-7xl font-black tracking-tight text-ui-text-primary leading-none">CAVE</h1>
+          <p className="text-ui-text-secondary font-medium text-sm mt-2 tracking-widest uppercase">
             Career AI Viability Evaluation
           </p>
         </div>
 
         {/* 카피 */}
         <div className="text-center mt-8 mb-10">
-          <p className="text-2xl font-bold text-slate-900 leading-snug">
+          <p className="text-2xl font-bold text-ui-text-primary leading-snug">
             내 밥그릇,<br />
-            <span className="text-blue-600">AI 시대에 살아남는가</span>
+            <span className="text-brand-main">AI 시대에 살아남는가</span>
           </p>
-          <p className="text-slate-500 font-medium text-sm mt-3">
+          <p className="text-ui-text-secondary font-medium text-sm mt-3">
             16문항 · 4글자 코드 · 16가지 생존 유형
           </p>
         </div>
@@ -476,15 +476,15 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* 4축 미리보기 */}
         <div className="grid grid-cols-2 gap-3 mb-10">
           {[
-            { code: "W / A", title: "말하기 방식", desc: "스토리 vs 데이터", color: "border-blue-500/20 bg-white shadow-sm" },
-            { code: "F / G", title: "변화 태도", desc: "선도 vs 검증", color: "border-teal-500/20 bg-white shadow-sm" },
-            { code: "L / R", title: "문제 해결", desc: "논리 vs 관계", color: "border-violet-500/20 bg-white shadow-sm" },
-            { code: "D / N", title: "가치 창출", desc: "깊이 vs 연결", color: "border-amber-500/20 bg-white shadow-sm" },
+            { code: "W / A", title: "말하기 방식", desc: "스토리 vs 데이터", color: "border-brand-main/20 bg-ui-bg-card shadow-sm" },
+            { code: "F / G", title: "변화 태도", desc: "선도 vs 검증", color: "border-teal-500/20 bg-ui-bg-card shadow-sm" },
+            { code: "L / R", title: "문제 해결", desc: "논리 vs 관계", color: "border-violet-500/20 bg-ui-bg-card shadow-sm" },
+            { code: "D / N", title: "가치 창출", desc: "깊이 vs 연결", color: "border-amber-500/20 bg-ui-bg-card shadow-sm" },
           ].map((ax) => (
             <div key={ax.code} className={`rounded-xl border p-4 ${ax.color}`}>
-              <div className="text-lg font-black text-slate-800 mb-1">{ax.code}</div>
-              <div className="text-xs font-bold text-slate-500">{ax.title}</div>
-              <div className="text-xs text-slate-400 mt-0.5 font-medium">{ax.desc}</div>
+              <div className="text-lg font-black text-ui-text-primary mb-1">{ax.code}</div>
+              <div className="text-xs font-bold text-ui-text-secondary">{ax.title}</div>
+              <div className="text-xs text-ui-text-secondary mt-0.5 font-medium">{ax.desc}</div>
             </div>
           ))}
         </div>
@@ -492,11 +492,11 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* CTA */}
         <button
           onClick={onStart}
-          className="w-full bg-blue-600 text-white font-black text-lg py-4 rounded-2xl hover:bg-blue-700 transition-all duration-200 tracking-tight shadow-md shadow-blue-600/20 mt-4"
+          className="w-full bg-brand-main text-white font-black text-lg py-4 rounded-2xl hover:bg-brand-main/80 transition-all duration-200 tracking-tight shadow-md shadow-brand-main/20 mt-10"
         >
           CAVE 검사 시작 →
         </button>
-        <p className="text-center text-slate-500 text-xs mt-4 font-medium">약 3분 소요 · 16문항</p>
+        <p className="text-center text-ui-text-secondary text-xs mt-4 font-medium">약 3분 소요 · 16문항</p>
       </div>
     </div>
   );
@@ -504,17 +504,17 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
 
 function TestScreen({ q, qNum, total, progress, stepInfo, stepProgress, onAnswer }: any) {
   return (
-    <div className="bg-slate-50 text-slate-900 flex flex-col py-24 min-h-screen">
+    <div className="bg-ui-bg-card text-ui-text-primary flex flex-col py-24 min-h-screen">
       {/* 상단 스텝 인디케이터 */}
       <div className="px-4 pb-4 max-w-lg mx-auto w-full">
         <div className="flex gap-2 mb-4">
           {stepProgress.map((s: any) => (
             <div key={s.step} className="flex-1">
               <div className={`h-1.5 rounded-full transition-all ${
-                s.done ? "bg-blue-600/30" : s.active ? "bg-blue-600" : "bg-slate-200"
+                s.done ? s.bgOff : s.active ? s.bgColor : "bg-ui-border"
               }`} />
               <div className={`text-[10px] mt-1.5 font-bold uppercase tracking-wider ${
-                s.active ? "text-blue-600" : s.done ? "text-blue-600/60" : "text-slate-400"
+                s.active ? s.color : s.done ? s.textOff : "text-ui-text-secondary"
               }`}>
                 {s.axis}
               </div>
@@ -527,24 +527,24 @@ function TestScreen({ q, qNum, total, progress, stepInfo, stepProgress, onAnswer
           <span className={`text-xs font-black tracking-widest uppercase ${stepInfo.color}`}>
             Step {stepInfo.step} — {stepInfo.label}
           </span>
-          <span className="text-xs text-slate-400 font-bold">{qNum} / {total}</span>
+          <span className="text-xs text-ui-text-secondary font-bold">{qNum} / {total}</span>
         </div>
-        <div className="h-1 bg-slate-200 rounded-full overflow-hidden">
-          <div className="h-full bg-blue-600 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="h-1 bg-ui-border rounded-full overflow-hidden">
+          <div className={`h-full rounded-full transition-all duration-300 ${stepInfo.bgColor}`} style={{ width: `${progress}%` }} />
         </div>
       </div>
 
       <div className="flex-1 flex flex-col justify-center px-4 max-w-lg mx-auto w-full">
-        <span className="text-slate-400 text-sm font-bold font-mono mb-2">Q{qNum}.</span>
-        <h2 className="text-[20px] md:text-[22px] font-bold text-slate-800 leading-[1.3] mb-10 tracking-tight">
+        <span className="text-ui-text-secondary text-sm font-bold font-mono mb-2">Q{qNum}.</span>
+        <h2 className="text-[20px] md:text-[22px] font-bold text-ui-text-primary leading-[1.3] mb-10 tracking-tight">
           {q.text}
         </h2>
         <div className="flex flex-col gap-4">
-          <ChoiceButton label="A" text={q.a.label} onClick={() => onAnswer(q.a.value)} colorClass="hover:border-blue-500 hover:bg-blue-50" />
-          <ChoiceButton label="B" text={q.b.label} onClick={() => onAnswer(q.b.value)} colorClass="hover:border-blue-500 hover:bg-blue-50" />
+          <ChoiceButton label="A" text={q.a.label} onClick={() => onAnswer(q.a.value)} colorClass="hover:border-brand-main hover:bg-brand-main/10" />
+          <ChoiceButton label="B" text={q.b.label} onClick={() => onAnswer(q.b.value)} colorClass="hover:border-brand-main hover:bg-brand-main/10" />
         </div>
         <div className="mt-12 text-center">
-          <p className="text-slate-400 font-medium text-xs">
+          <p className="text-ui-text-secondary font-medium text-xs">
             NCS · {q.step===1?"의사소통능력 · 수리능력":q.step===2?"적응학습능력 · 경력개발능력":q.step===3?"문제해결능력 · 대인관계능력":"자기관리능력 · 협업능력 · 디지털능력"}
           </p>
         </div>
@@ -555,24 +555,43 @@ function TestScreen({ q, qNum, total, progress, stepInfo, stepProgress, onAnswer
 
 function ChoiceButton({ label, text, onClick, colorClass }: any) {
   return (
-    <button onClick={onClick} className={`w-full text-left bg-white border border-slate-200 rounded-2xl p-5 flex items-start gap-4 transition-all duration-150 group shadow-sm ${colorClass}`}>
-      <span className="w-7 h-7 rounded-full border border-slate-300 bg-slate-50 flex items-center justify-center text-xs font-bold text-slate-500 group-hover:border-blue-500 group-hover:text-blue-600 shrink-0 mt-0.5">
+    <button onClick={onClick} className={`w-full text-left bg-ui-bg-card border border-ui-border rounded-2xl p-5 flex items-start gap-4 transition-all duration-150 group shadow-sm ${colorClass}`}>
+      <span className="w-7 h-7 rounded-full border border-ui-border bg-ui-bg-card flex items-center justify-center text-xs font-bold text-ui-text-secondary group-hover:border-brand-main group-hover:text-brand-main shrink-0 mt-0.5">
         {label}
       </span>
-      <span className="text-slate-700 text-[15px] leading-relaxed font-semibold group-hover:text-slate-900">{text}</span>
+      <span className="text-ui-text-secondary text-[15px] leading-relaxed font-semibold group-hover:text-ui-text-primary">{text}</span>
     </button>
   );
 }
 
-function ResultScreen({ code, type, answers, onRetry }: any) {
+function ResultScreen({ code: initialCode, type: initialType, answers: initialAnswers, onRetry }: any) {
+  const [viewCode, setViewCode] = useState(initialCode);
+
+  const code = viewCode;
+  const type = TYPES[viewCode] || initialType;
+  
+  const mockAnswers = useMemo(() => {
+    if (typeof initialAnswers === 'object' && initialCode === viewCode) {
+      return initialAnswers;
+    }
+    return {
+      "WA": Array(4).fill(viewCode[0]),
+      "FG": Array(4).fill(viewCode[1]),
+      "LR": Array(4).fill(viewCode[2]),
+      "DN": Array(4).fill(viewCode[3]),
+    };
+  }, [initialAnswers, initialCode, viewCode]);
+
+  const currentAnswers = mockAnswers;
+
   const TOTAL_PER_AXIS = 4;
   const axisDefs = [
-    { axis:"WA", a:"W", b:"A", labelA:"스토리형", labelB:"데이터형", colorA:"bg-blue-500", colorB:"bg-sky-400" },
-    { axis:"FG", a:"F", b:"G", labelA:"선도형",   labelB:"검증형",   colorA:"bg-teal-500",  colorB:"bg-emerald-400" },
-    { axis:"LR", a:"L", b:"R", labelA:"논리형",   labelB:"관계형",   colorA:"bg-violet-500",colorB:"bg-purple-400" },
-    { axis:"DN", a:"D", b:"N", labelA:"심층형",   labelB:"연결형",   colorA:"bg-amber-500", colorB:"bg-orange-400" },
+    { axis:"WA", a:"W", b:"A", labelA:"스토리형", labelB:"데이터형", colorA:"bg-brand-main", colorB:"bg-brand-extinction" },
+    { axis:"FG", a:"F", b:"G", labelA:"선도형",   labelB:"검증형",   colorA:"bg-brand-main", colorB:"bg-brand-extinction" },
+    { axis:"LR", a:"L", b:"R", labelA:"논리형",   labelB:"관계형",   colorA:"bg-brand-main", colorB:"bg-brand-extinction" },
+    { axis:"DN", a:"D", b:"N", labelA:"심층형",   labelB:"연결형",   colorA:"bg-brand-main", colorB:"bg-brand-extinction" },
   ].map(({ axis, a, b, labelA, labelB, colorA, colorB }) => {
-    const votes  = answers[axis] || [];
+    const votes  = currentAnswers[axis] || [];
     const aCount = votes.filter((v: string) => v === a).length;
     const bCount = votes.filter((v: string) => v === b).length;
     const aW = Math.round((aCount / TOTAL_PER_AXIS) * 100);
@@ -591,16 +610,16 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
   ];
 
   return (
-    <div className="bg-slate-50 text-slate-900 py-16 min-h-screen">
+    <div className="bg-ui-bg-card text-ui-text-primary py-16 min-h-screen">
       <div className="max-w-lg mx-auto px-4 mt-8">
         {/* 헤더 */}
         <div className="pt-10 pb-8 text-center">
-          <p className="text-blue-600 font-extrabold text-xs tracking-[0.2em] uppercase mb-6 px-4 py-1.5 bg-blue-600/10 border border-blue-600/20 rounded-full inline-block">
+          <p className="text-brand-main font-extrabold text-xs tracking-[0.2em] uppercase mb-6 px-4 py-1.5 bg-brand-main/10 border border-brand-main/20 rounded-full inline-block">
             CAVE 검사 결과
           </p>
           <div className="text-6xl md:text-7xl mb-4 drop-shadow-sm">{type.emoji}</div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-2 tracking-tight">{type.name}</h1>
-          <p className="text-slate-500 font-semibold">{type.eng}</p>
+          <h1 className="text-4xl md:text-5xl font-black text-black mb-2 tracking-tight">{type.name}</h1>
+          <p className="text-ui-text-secondary font-semibold">{type.eng}</p>
         </div>
 
         {/* 코드 카드 */}
@@ -610,7 +629,7 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
               const m = letterMeta.find((x) => x.val === l);
               return (
                 <div key={i} className="text-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-black text-white mb-2 shadow-sm border border-white/20">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-ui-bg-card/90 backdrop-blur-md flex items-center justify-center text-3xl font-black text-black mb-2 shadow-sm border border-black/10">
                     {l}
                   </div>
                   <div className="text-white/90 text-[11px] font-bold">{m?.desc}</div>
@@ -624,32 +643,31 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
         </div>
 
         {/* 유형 설명 */}
-        <div className="bg-white rounded-3xl p-6 mb-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
-            <span className="w-1.5 h-4 bg-blue-500 rounded-full inline-block"></span>
+        <div className="bg-ui-bg-card rounded-3xl p-6 mb-6 border border-ui-border shadow-sm hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-black text-ui-text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
+            <span className="w-1.5 h-4 bg-brand-spread rounded-full inline-block"></span>
             유형 설명
           </h3>
-          <p className="text-slate-600 text-[15px] leading-relaxed break-keep font-medium">{type.desc}</p>
+          <p className="text-ui-text-secondary text-[15px] leading-relaxed break-keep font-medium">{type.desc}</p>
         </div>
 
         {/* 나의 생존 DNA (양방향 바) */}
-        <div className="bg-white rounded-3xl p-6 mb-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-4 bg-teal-500 rounded-full inline-block"></span>
+        <div className="bg-ui-bg-card rounded-3xl p-6 mb-6 border border-ui-border shadow-sm hover:shadow-md transition-shadow">
+          <h3 className="text-sm font-black text-ui-text-primary uppercase tracking-widest mb-6 flex items-center gap-2">
+            <span className="w-1.5 h-4 bg-brand-main rounded-full inline-block"></span>
             나의 생존 DNA
           </h3>
-          <p className="text-slate-500 text-xs mb-6 font-medium">선택 비율 상세 결과입니다 (총 4문항 기준)</p>
           {axisDefs.map((s) => (
             <div key={s.axis} className="mb-6 last:mb-0">
               <div className="flex justify-between text-[13px] mb-2.5">
-                <span className="font-bold text-slate-700">{s.labelA} <span className="text-slate-400 font-medium">({s.aCount}/4)</span></span>
-                <span className="font-bold text-slate-700">{s.labelB} <span className="text-slate-400 font-medium">({s.bCount}/4)</span></span>
+                <span className="font-bold text-ui-text-secondary">{s.labelA} <span className="text-ui-text-secondary font-medium">({s.aCount}/4)</span></span>
+                <span className="font-bold text-ui-text-secondary">{s.labelB} <span className="text-ui-text-secondary font-medium">({s.bCount}/4)</span></span>
               </div>
-              <div className="flex h-3 md:h-3.5 rounded-full overflow-hidden bg-slate-100 gap-0.5">
+              <div className="flex h-3 md:h-3.5 rounded-full overflow-hidden bg-ui-bg-card gap-0.5">
                 <div className="flex-1 flex justify-end">
                   <div className={`h-full rounded-l-full ${s.colorA}`} style={{ width: `${s.aW}%` }} />
                 </div>
-                <div className="w-0.5 bg-slate-200 shrink-0" />
+                <div className="w-0.5 bg-ui-bg-card shrink-0" />
                 <div className="flex-1 flex justify-start">
                   <div className={`h-full rounded-r-full ${s.colorB}`} style={{ width: `${s.bW}%` }} />
                 </div>
@@ -661,31 +679,31 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
         {/* AI 시대 추천 직업 */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-4 px-2">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest shrink-0">
+            <h3 className="text-sm font-black text-ui-text-primary uppercase tracking-widest shrink-0">
               AI 시대 추천 직업
             </h3>
-            <div className="flex-1 border-b border-dashed border-slate-300" />
+            <div className="flex-1 border-b border-dashed border-ui-border" />
             <div className="flex gap-3 shrink-0">
-              <span className="flex items-center gap-1.5 text-[11px] text-violet-600 font-bold bg-violet-50 px-2 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-600 inline-block" />신생
+              <span className="flex items-center gap-1.5 text-[11px] text-brand-appearance font-bold bg-brand-appearance-50 px-2 py-0.5 rounded-full">
+                신생
               </span>
-              <span className="flex items-center gap-1.5 text-[11px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />스테디
+              <span className="flex items-center gap-1.5 text-[11px] text-brand-spread font-bold bg-brand-spread-50 px-2 py-0.5 rounded-full">
+                스테디
               </span>
             </div>
           </div>
           <div className="flex flex-col gap-3">
             {jobs.map((job: any, i: number) => (
-              <div key={i} className="bg-white rounded-2xl p-5 flex gap-4 border border-slate-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5">
+              <div key={i} className="bg-ui-bg-card rounded-2xl p-5 flex gap-4 border border-ui-border shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5">
                 <div className="text-2xl shrink-0 mt-1">{job.icon}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${job.tag==="new"?"border-violet-200 text-violet-700 bg-violet-50":"border-amber-200 text-amber-700 bg-amber-50"}`}>
-                      {job.tag==="new"?"✦ 신생직업":"⬛ 스테디셀러"}
+                    <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${job.tag==="new"?"border-brand-appearance/20 text-brand-appearance bg-brand-appearance-50":"border-brand-spread/20 text-brand-spread bg-brand-spread-50"}`}>
+                      {job.tag==="new"?"신생직업":"스테디셀러"}
                     </span>
                   </div>
-                  <p className="text-slate-900 font-bold text-[15px] leading-snug mb-2">{job.title}</p>
-                  <p className="text-slate-600 text-[13px] leading-relaxed break-keep">{job.desc}</p>
+                  <p className="text-ui-text-primary font-bold text-[15px] leading-snug mb-2">{job.title}</p>
+                  <p className="text-ui-text-secondary text-[13px] leading-relaxed break-keep">{job.desc}</p>
                 </div>
               </div>
             ))}
@@ -695,83 +713,85 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
         {/* 닮은 유명인 */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-4 px-2">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest shrink-0">이런 분과 닮았어요</h3>
-            <div className="flex-1 border-b border-dashed border-slate-300" />
+            <h3 className="text-sm font-black text-ui-text-primary uppercase tracking-widest shrink-0">이런 분과 닮았어요</h3>
+            <div className="flex-1 border-b border-dashed border-ui-border" />
           </div>
           <div className="flex flex-col gap-3">
             {figures.map((fig: any, i: number) => (
-              <div key={i} className="bg-white rounded-2xl p-5 flex gap-4 items-start border border-slate-100 shadow-sm hover:shadow-md transition-all">
+              <div key={i} className="bg-ui-bg-card rounded-2xl p-5 flex gap-4 items-start border border-ui-border shadow-sm hover:shadow-md transition-all">
                 <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${type.color} flex items-center justify-center text-white font-black text-sm shrink-0 shadow-sm`}>
                   {i+1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline gap-2.5 mb-1.5 flex-wrap">
-                    <span className="text-slate-900 font-black text-[15px]">{fig.name}</span>
-                    <span className="text-slate-500 font-semibold text-[13px]">{fig.role}</span>
+                    <span className="text-ui-text-primary font-black text-[15px]">{fig.name}</span>
+                    <span className="text-ui-text-secondary font-semibold text-[13px]">{fig.role}</span>
                   </div>
-                  <p className="text-slate-600 text-[13px] leading-relaxed break-keep">{fig.reason}</p>
+                  <p className="text-ui-text-secondary text-[13px] leading-relaxed break-keep">{fig.reason}</p>
                 </div>
               </div>
             ))}
           </div>
-          <p className="text-slate-400 font-medium text-[11px] mt-3 leading-relaxed px-2">
+          <p className="text-ui-text-secondary font-medium text-[11px] mt-3 leading-relaxed px-2">
             ※ 공개된 인터뷰·저술·행동 패턴을 기반으로 한 참고용 페르소나입니다. 
           </p>
         </div>
 
         {/* 생존 전략 */}
-        <div className="bg-[#FFF8F1] rounded-3xl p-6 mb-4 border border-orange-100">
-          <h3 className="text-sm font-black text-orange-700 uppercase tracking-widest mb-3 flex items-center gap-2">
+        <div className="bg-brand-spread-50 rounded-3xl p-6 mb-4 border border-brand-spread/20">
+          <h3 className="text-sm font-black text-brand-spread uppercase tracking-widest mb-3 flex items-center gap-2">
             ⚡ AI 시대 생존 전략
           </h3>
-          <p className="text-orange-900/80 text-[15px] leading-relaxed font-medium break-keep">{type.survival}</p>
+          <p className="text-[#4D4D4D] text-[15px] leading-relaxed font-normal break-keep">{type.survival}</p>
         </div>
 
         {/* 주의할 점 */}
-        <div className="bg-[#FFF0F0] rounded-3xl p-6 mb-8 border border-red-100">
-          <h3 className="text-sm font-black text-red-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+        <div className="bg-brand-threat-50 rounded-3xl p-6 mb-8 border border-brand-threat/20">
+          <h3 className="text-sm font-black text-brand-threat uppercase tracking-widest mb-3 flex items-center gap-2">
             ⚠️ 이 점은 주의하세요
           </h3>
-          <p className="text-red-900/80 text-[15px] leading-relaxed font-medium break-keep">{type.risk}</p>
+          <p className="text-[#4D4D4D] text-[15px] leading-relaxed font-normal break-keep">{type.risk}</p>
         </div>
 
         {/* 키워드 */}
         <div className="flex flex-wrap gap-2 mb-10 px-2">
           {type.keyword.map((kw: string) => (
-            <span key={kw} className="text-[13px] font-bold border border-slate-200 text-slate-600 bg-white px-4 py-2 rounded-full shadow-sm hover:border-slate-300 transition-colors">
+            <span key={kw} className="text-[13px] font-bold border border-ui-border text-ui-text-secondary bg-ui-bg-card px-4 py-2 rounded-full shadow-sm hover:border-ui-border transition-colors">
               #{kw}
             </span>
           ))}
         </div>
 
         {/* 16유형 미니맵 */}
-        <div className="bg-white rounded-3xl p-6 mb-8 border border-slate-100 shadow-sm">
-          <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-5 px-1">
+        <div className="bg-ui-bg-card rounded-3xl p-6 mb-8 border border-ui-border shadow-sm">
+          <h3 className="text-xs font-black text-ui-text-secondary uppercase tracking-widest mb-5 px-1">
             CAVE 16유형 지도
           </h3>
           <div className="grid grid-cols-4 gap-2 md:gap-3">
             {Object.entries(TYPES).map(([c, t]: any) => (
-              <div key={c} className={`rounded-2xl p-2.5 md:p-3 text-center transition-all ${
-                c === code ? `bg-gradient-to-br ${t.color} text-white shadow-md scale-105` : "bg-slate-50 border border-slate-100 text-slate-500 hover:bg-slate-100"
+              <button 
+                key={c} 
+                onClick={() => setViewCode(c)}
+                type="button"
+                className={`rounded-2xl p-2 md:p-2.5 aspect-square flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                c === code ? `bg-gradient-to-br ${t.color} text-white shadow-md scale-105 ring-2 ring-white` : "bg-ui-bg-card border border-ui-border text-ui-text-secondary hover:bg-ui-bg-main"
               }`}>
-                <div className={`text-xs md:text-sm font-black ${c===code ? "drop-shadow-sm" : ""}`}>{c}</div>
-                <div className={`text-[10px] md:text-[11px] mt-1 font-bold leading-tight break-keep ${
-                  c === code ? "text-white/90" : "text-slate-400"
-                }`}>
-                  {t.name.split(" ").slice(-1)[0]}
+                <div className={`text-xs md:text-sm font-black`}>{c}</div>
+                <div className={`text-[10px] md:text-[11px] mt-1 font-medium leading-tight break-keep ${c === code ? "text-white/90" : "text-ui-text-secondary"}`}>
+                  {t.name}
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
         {/* 하단 버튼 */}
         <div className="flex gap-3 mt-10">
-          <button onClick={onRetry} className="flex-1 bg-white border-2 border-slate-200 text-slate-600 font-black py-4 md:py-4.5 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all text-[15px]">
+          <button onClick={onRetry} className="flex-1 bg-ui-bg-card border-2 border-ui-border text-ui-text-secondary font-black py-4 md:py-4.5 rounded-2xl hover:bg-ui-bg-card hover:border-ui-border transition-all text-[15px]">
             다시 하기
           </button>
           <button
-            className="flex-1 bg-blue-600 text-white font-black py-4 md:py-4.5 rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all text-[15px]"
+            className="flex-1 bg-brand-main text-white font-black py-4 md:py-4.5 rounded-2xl hover:bg-brand-main/80 shadow-lg shadow-brand-main/20 transition-all text-[15px]"
             onClick={() => {
               if (navigator.share) {
                 navigator.share({ title:`나는 ${type.name} (${code})`, text: type.tagline });
@@ -784,7 +804,7 @@ function ResultScreen({ code, type, answers, onRetry }: any) {
             결과 공유 ↗
           </button>
         </div>
-        <p className="text-center text-slate-400 font-medium text-xs mt-6 mb-4">
+        <p className="text-center text-ui-text-secondary font-medium text-xs mt-6 mb-4">
           CAVE — Career AI Viability Evaluation
         </p>
       </div>

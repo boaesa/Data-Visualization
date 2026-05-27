@@ -1,6 +1,23 @@
 @import "tailwindcss";
 
 @theme {
+  --color-brand-threat: #F24C4C;
+  --color-brand-threat-50: #FEF2F2;
+  --color-brand-extinction: #F6E04C;
+  --color-brand-extinction-50: #FDFCE9;
+  --color-brand-extinction-100: #FEF9C3;
+  --color-brand-appearance: #04B94E;
+  --color-brand-appearance-50: #EEFFF4;
+  --color-brand-spread: #2699F6;
+  --color-brand-spread-50: #EEFAFF;
+  --color-brand-main: #2699F6;
+
+  --color-ui-bg-main: #FAFAFA;
+  --color-ui-bg-card: #FFFFFF;
+  --color-ui-text-primary: #121212;
+  --color-ui-text-secondary: #4D4D4D;
+  --color-ui-border: #E6E6E6;
+
   --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* 13-step neutral scale based on #443627 */
@@ -207,4 +224,14 @@
 
 @utility animate-chip-enter {
   animation: chip-enter 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+@keyframes line-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@utility animate-dash {
+  animation: line-dash 1s linear infinite;
 }

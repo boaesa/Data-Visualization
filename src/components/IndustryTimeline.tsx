@@ -174,23 +174,23 @@ const IndustryTimeline = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full max-w-[1600px] mx-auto p-4 bg-white font-sans overflow-hidden rounded-3xl border border-slate-100 shadow-sm mt-8">
+    <div className="flex flex-col w-full max-w-[1600px] mx-auto p-4 bg-ui-bg-card font-sans overflow-hidden rounded-3xl border border-ui-border shadow-sm mt-8">
       
       {/* 상단 헤더: 왼쪽수치축(80px) + 산업섹션 6개 + 오른쪽연도축(100px) */}
-      <div className="grid grid-cols-[80px_repeat(6,1fr)_100px] border-b-2 border-slate-200 pb-3 pt-4 sticky top-0 bg-white z-50">
-        <div className="text-center font-bold text-slate-400 text-xs self-end pb-1 pr-2">수치</div>
+      <div className="grid grid-cols-[80px_repeat(6,1fr)_100px] border-b-2 border-ui-border pb-3 pt-4 sticky top-0 bg-ui-bg-card z-50">
+        <div className="text-center font-bold text-ui-text-secondary text-xs self-end pb-1 pr-2">수치</div>
         {INDUSTRIES.map((ind) => (
           <div key={ind.id} className="text-center font-extrabold text-sm px-1 py-2">
             <span style={{ color: ind.color }}>{ind.name}</span>
           </div>
         ))}
-        <div className="text-center font-bold text-slate-400 text-xs self-end pb-1 pl-2">연도</div>
+        <div className="text-center font-bold text-ui-text-secondary text-xs self-end pb-1 pl-2">연도</div>
       </div>
 
       <div className="relative grid grid-cols-[80px_repeat(6,1fr)_100px] my-6" style={{ height: `${GRAPH_HEIGHT}px` }}>
         
         {/* [Layer 1] 가로축(수치 0~4500) 왼쪽 표현 */}
-        <div className="relative border-r border-slate-200 bg-slate-50/50 h-full">
+        <div className="relative border-r border-ui-border bg-ui-bg-main h-full">
           {VALUE_TICKS.map((val) => {
             const bottomPos = (val / 4500) * 100; 
             return (
@@ -199,7 +199,7 @@ const IndustryTimeline = () => {
                 className="absolute right-2 flex items-center translate-y-1/2" 
                 style={{ bottom: `${bottomPos}%` }}
               >
-                <span className="text-[11px] font-bold text-slate-500 mr-2">{val}</span>
+                <span className="text-[11px] font-bold text-ui-text-secondary mr-2">{val}</span>
                 <div className="w-1.5 h-[2px] bg-slate-300" />
               </div>
             );
@@ -228,7 +228,7 @@ const IndustryTimeline = () => {
           {/* 세로 구분선 및 배경 가이드 (Layer 2) */}
           <div className="absolute inset-0 grid grid-cols-6 pointer-events-none z-10">
             {INDUSTRIES.map((_, i) => (
-              <div key={`guide-${i}`} className="border-r border-slate-300 border-solid h-full" />
+              <div key={`guide-${i}`} className="border-r border-ui-border border-solid h-full" />
             ))}
           </div>
 
@@ -281,12 +281,12 @@ const IndustryTimeline = () => {
                       className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group z-30"
                       style={{ top: `${issue.topPx}px` }}
                     >
-                      <div className="bg-white border-2 border-slate-200 rounded-xl shadow-md hover:shadow-xl overflow-hidden group-hover:scale-105 transition-all duration-300 cursor-pointer w-[100px] h-[152px] flex flex-col">
+                      <div className="bg-ui-bg-card border-2 border-ui-border rounded-xl shadow-md hover:shadow-xl overflow-hidden group-hover:scale-105 transition-all duration-300 cursor-pointer w-[100px] h-[152px] flex flex-col">
                         <img src={issue.img} alt={issue.title} className="w-full h-[70px] object-cover shrink-0" />
-                        <div className="p-2 bg-white flex flex-col items-center justify-center flex-1">
-                          <p className="font-bold text-[11px] text-slate-800 leading-tight mb-1 text-center line-clamp-2">{issue.title}</p>
-                          <p className="text-[10px] text-blue-600 font-extrabold mb-1">{issue.year}</p>
-                          <p className="text-[9px] text-slate-500 leading-tight text-center line-clamp-2 opacity-80 group-hover:opacity-100">{issue.desc}</p>
+                        <div className="p-2 bg-ui-bg-card flex flex-col items-center justify-center flex-1">
+                          <p className="font-bold text-[11px] text-ui-text-primary leading-tight mb-1 text-center line-clamp-2">{issue.title}</p>
+                          <p className="text-[10px] text-brand-main font-extrabold mb-1">{issue.year}</p>
+                          <p className="text-[9px] text-ui-text-secondary leading-tight text-center line-clamp-2 opacity-80 group-hover:opacity-100">{issue.desc}</p>
                         </div>
                       </div>
                     </div>
@@ -298,7 +298,7 @@ const IndustryTimeline = () => {
         </div>
 
         {/* [Layer 4] 우측 연도축 */}
-        <div className="relative h-full border-l border-slate-200 bg-slate-50/50">
+        <div className="relative h-full border-l border-ui-border bg-ui-bg-main">
           {YEARS.map((year) => {
             const topPercent = (getYearY(year) / GRAPH_HEIGHT) * 100;
             return (
@@ -307,8 +307,8 @@ const IndustryTimeline = () => {
                 className="absolute flex items-center w-full -translate-y-1/2"
                 style={{ top: `${topPercent}%` }}
               >
-                <div className="w-2.5 h-[2px] bg-slate-400" />
-                <span className="ml-2 font-extrabold text-xs text-slate-600">{year}</span>
+                <div className="w-2.5 h-[2px] bg-brand-extinction" />
+                <span className="ml-2 font-extrabold text-xs text-ui-text-secondary">{year}</span>
               </div>
             );
           })}
