@@ -30,8 +30,8 @@ export default function App() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-ui-bg-card/90 border-b border-ui-border">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-center">
-          <div className="hidden md:flex items-center gap-8 text-[16px] font-medium text-ui-text-secondary">
-            <a href="#mbti-test" className="px-5 py-2 bg-[#2699F6] hover:bg-[#2699F6]/90 text-white rounded-full font-bold transition-all text-sm mr-2">내 환승직업 찾기</a>
+          <div className="hidden md:flex items-center gap-8 text-[14px] font-medium text-ui-text-secondary">
+            <a href="#mbti-test" className="px-5 py-2 bg-[#2699F6] hover:bg-[#2699F6]/90 text-white rounded-full font-bold transition-all text-[14px] mr-2">내 환승직업 찾기</a>
             <a href="#background" className="hover:text-ui-text-primary transition-colors">배경</a>
             <a href="#competency-analysis" className="hover:text-ui-text-primary transition-colors">역량 분석</a>
             <a href="#industry-training" className="hover:text-ui-text-primary transition-colors">훈련 현황</a>
