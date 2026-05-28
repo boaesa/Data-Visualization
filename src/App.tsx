@@ -31,59 +31,27 @@ export default function App() {
       <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-ui-bg-card/90 border-b border-ui-border">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-center">
           <div className="hidden md:flex items-center gap-8 text-[16px] font-medium text-ui-text-secondary">
+            <a href="#mbti-test" className="px-5 py-2 bg-[#2699F6] hover:bg-[#2699F6]/90 text-white rounded-full font-bold transition-all text-sm mr-2">내 환승직업 찾기</a>
             <a href="#background" className="hover:text-ui-text-primary transition-colors">배경</a>
             <a href="#competency-analysis" className="hover:text-ui-text-primary transition-colors">역량 분석</a>
             <a href="#industry-training" className="hover:text-ui-text-primary transition-colors">훈련 현황</a>
             <a href="#future" className="hover:text-ui-text-primary transition-colors">유망 분야</a>
             <a href="#job-list" className="hover:text-ui-text-primary transition-colors">직업 리스트</a>
             <a href="#timeline" className="hover:text-ui-text-primary transition-colors">일자리 타임라인</a>
-            <a href="#mbti-test" className="px-5 py-2 bg-[#2699F6] hover:bg-[#2699F6]/90 text-white rounded-full font-bold transition-all text-sm ml-2">내 환승직업 찾기</a>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative flex flex-col items-center overflow-hidden">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-ui-bg-card to-transparent blur-3xl -z-10 rounded-full opacity-70"></div>
-        
-        <div className="w-full min-h-[calc(100vh-64px)] flex flex-col justify-center items-center px-6">
-          <div className="max-w-5xl mx-auto text-center w-full">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ui-bg-card text-ui-text-secondary font-medium text-[14px] md:text-[15px] mb-12 border border-ui-border shadow-sm">
-              <span>AI 시대 생존 가이드 보고서</span>
-            </div>
-            
-            <h1 className="text-[52px] sm:text-[72px] md:text-[100px] lg:text-[110px] font-black tracking-tighter text-ui-text-primary mb-0" style={{ lineHeight: 'calc(1.05em + 10px)' }}>
-              AI 시대에서 <br />
-              <span className="text-ui-text-primary tracking-tighter">
-                내 밥그릇 지키기
-              </span>
-            </h1>
-          </div>
-        </div>
-
-        <div className="w-full px-6 pb-40 pt-10">
-          <div className="max-w-3xl mx-auto text-center text-[16px] md:text-[18px] text-ui-text-secondary leading-[1.8]">
-            <p className="mb-8 text-ui-text-primary font-bold text-[20px] md:text-[22px]">
-              역사는 반복된다. 직업의 역사 또한 그러하다.
-            </p>
-            <p className="mb-6">
-              AI 시대가 성큼 다가오면서 미래를 준비하는 2030세대의 불안도 함께 커지고 있습니다. <br className="hidden md:block"/>
-              '내가 선택한 직업이 사라지면 어떡하지?', '나는 AI에게 대체될까?' 누구나 한 번쯤 이런 걱정을 해본 적 있을 것입니다.
-            </p>
-            <p>
-              본 프로젝트는 그 막연한 불안에 조금이나마 답이 되고자 합니다. <br className="hidden md:block"/>
-              대한민국의 산업 및 직업 데이터를 바탕으로 변화하는 세상을 함께 읽어봅니다.
-            </p>
-          </div>
-        </div>
+      {/* CAVE Test (Main Entrance Section) */}
+      <section id="mbti-test" className="w-full m-0 p-0">
+        <CAVETest />
       </section>
 
       {/* Background Section */}
       <section id="background" className="py-24 bg-ui-bg-card border-y border-ui-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-ui-text-primary font-semibold tracking-wider text-[16px] uppercase">Background</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Background</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">프로젝트 배경</h2>
           </div>
           
@@ -125,7 +93,7 @@ export default function App() {
       <section id="competency-analysis" className="py-24 px-6 bg-ui-bg-card border-t border-ui-border">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-ui-text-primary font-semibold tracking-wider text-[16px] uppercase">Competency Shift</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Competency Shift</span>
             <h2 className="text-[28px] md:text-[36px] font-bold mt-2 leading-[1.25] text-ui-text-primary">AI 시대 미래 역량 분석</h2>
             <p className="text-ui-text-secondary mt-4 max-w-2xl mx-auto">
               생성형 AI 확산과 융복합 직무 확대에 대응하여 실무 중심으로 정교화된 역량 및 개편 사항을 살펴봅니다.
@@ -230,7 +198,7 @@ export default function App() {
       <section id="industry-training" className="py-24 px-6 bg-ui-bg-card border-t border-ui-border">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-ui-text-primary font-semibold tracking-wider text-[16px] uppercase">Industry Training Analysis</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Industry Training Analysis</span>
             <h2 className="text-[28px] md:text-[36px] font-bold mt-2 leading-[1.25] text-ui-text-primary">산업분류별 훈련 현황 분석</h2>
             <p className="text-ui-text-secondary mt-4 max-w-2xl mx-auto">
               총 10,225개 과정 데이터를 바탕으로 분석한 교육 균형 상태와 전략적 공백(Gap)
@@ -348,7 +316,7 @@ export default function App() {
       <section id="future" className="py-24 px-6 bg-ui-bg-main">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-ui-text-primary font-semibold tracking-wider text-[16px] uppercase">Future Outlook</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Future Outlook</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">5차 산업혁명 유망 분야</h2>
             <p className="text-ui-text-secondary mt-4 max-w-2xl mx-auto">
               과거 데이터의 반복되는 패턴을 기반으로 예측한 미래 유망 분야 및 직업군입니다.
@@ -413,7 +381,7 @@ export default function App() {
       <section id="framework" className="py-24 bg-ui-bg-card text-white px-6 hidden">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
-            <span className="text-brand-main font-semibold tracking-wider text-[16px] uppercase">Analysis Framework</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Analysis Framework</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 mb-4 leading-[1.25]">직업의 생태계 변화 패턴</h2>
             <p className="text-ui-text-secondary max-w-2xl">
               데이터를 통해 도출한 산업혁명 단계별 직업의 등장, 소멸 그리고 이동 패턴입니다.
@@ -516,7 +484,7 @@ export default function App() {
       <section id="competency" className="py-24 px-6 bg-ui-bg-card border-t border-ui-border hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-ui-text-primary font-semibold tracking-wider text-[16px] uppercase">Competency Shift</span>
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Competency Shift</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">역량 변화</h2>
             <p className="text-ui-text-secondary mt-4 max-w-2xl mx-auto">
               미래 산업 환경에 맞춰 변화하는 역량 체계와 우리가 준비해야 할 핵심 역량을 분석합니다.
@@ -723,10 +691,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* CAVE Test */}
-      <section id="mbti-test" className="w-full m-0 p-0">
-        <CAVETest />
-      </section>
+
 
       {/* Footer */}
       <footer className="bg-ui-bg-card py-12 border-t border-ui-border">

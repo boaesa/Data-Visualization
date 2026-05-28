@@ -23,6 +23,28 @@ const QUESTIONS = [
 ];
 
 // ─────────────────────────────────────────────
+// 16가지 CAVE 유형 맞춤형 그라디언트 배경색
+// ─────────────────────────────────────────────
+const GRADIENTS: Record<string, string> = {
+  WFLD: "linear-gradient(135deg, #01dcba 0%, #7f30cb 100%)",
+  WFLN: "linear-gradient(315deg, #21bdb8 0%, #280684 100%)",
+  WFRD: "linear-gradient(51deg, #9358f7 0%, #7b78f2 25.97%, #6197ee 50.06%, #45b5e9 76.65%, #10d7e2 100%)",
+  WFRN: "linear-gradient(224deg, #a5feca 0%, #3edceb 28.32%, #2594ff 62.4%, #5533ff 100%)",
+  WGLD: "linear-gradient(135deg, #a1ff8b 0%, #3f93ff 100%)",
+  WGLN: "linear-gradient(135deg, #80f1a6 0%, #efd000 100%)",
+  WGRD: "linear-gradient(45deg, #7df943 0%, #3775fb 100%)",
+  WGRN: "linear-gradient(45deg, #00c3ff 0%, #ffff1c 100%)",
+  AFLD: "linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%)",
+  AFLN: "linear-gradient(135deg, #fbda61 0%, #f76b1c 100%)",
+  AFRD: "linear-gradient(45deg, #f4426c 0%, #fbf2b1 100%)",
+  AFRN: "linear-gradient(90deg, #fc3bb2 0%, #f7906e 100%)",
+  AGLD: "linear-gradient(45deg, #f84978 0%, #524cfa 100%)",
+  AGLN: "linear-gradient(45deg, #fb4bf0 0%, #7268f8 100%)",
+  AGRD: "linear-gradient(45deg, #ff00cc 0%, #333399 100%)",
+  AGRN: "linear-gradient(45deg, #7b4397 0%, #dc2430 100%)"
+};
+
+// ─────────────────────────────────────────────
 // 16가지 CAVE 유형
 // ─────────────────────────────────────────────
 const TYPES: any = {
@@ -457,18 +479,21 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* 로고 */}
         <div className="text-center mb-2">
           <h1 className="text-7xl font-black tracking-tight text-ui-text-primary leading-none">CAVE</h1>
-          <p className="text-ui-text-secondary font-medium text-sm mt-2 tracking-widest uppercase">
+          <p className="font-medium text-sm mt-2 tracking-widest uppercase" style={{ color: "#2699F6" }}>
             Career AI Viability Evaluation
           </p>
         </div>
 
         {/* 카피 */}
         <div className="text-center mt-8 mb-10">
-          <p className="text-2xl font-bold text-ui-text-primary leading-snug">
-            내 밥그릇,<br />
-            <span className="text-brand-main">AI 시대에 살아남는가</span>
+          <p className="text-2xl font-bold text-[#2699F6]" style={{ lineHeight: "calc(1.375em + 4px)", marginBottom: "20px" }}>
+            네가 '인간아 미안해' 했잖아?<br />
+            <span>그럼 환승직업 이딴 거 안 찾아봤어</span>
           </p>
-          <p className="text-ui-text-secondary font-medium text-sm mt-3">
+          <p className="font-medium" style={{ color: "#121212", fontSize: "20px", marginBottom: "12px" }}>
+            AI 시대에서 나는 먹고 살 수 있을까?
+          </p>
+          <p className="text-ui-text-secondary font-medium text-sm">
             16문항 · 4글자 코드 · 16가지 생존 유형
           </p>
         </div>
@@ -476,10 +501,10 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* 4축 미리보기 */}
         <div className="grid grid-cols-2 gap-3 mb-10">
           {[
-            { code: "W / A", title: "말하기 방식", desc: "스토리 vs 데이터", color: "border-brand-main/20 bg-ui-bg-card shadow-sm" },
-            { code: "F / G", title: "변화 태도", desc: "선도 vs 검증", color: "border-teal-500/20 bg-ui-bg-card shadow-sm" },
-            { code: "L / R", title: "문제 해결", desc: "논리 vs 관계", color: "border-violet-500/20 bg-ui-bg-card shadow-sm" },
-            { code: "D / N", title: "가치 창출", desc: "깊이 vs 연결", color: "border-amber-500/20 bg-ui-bg-card shadow-sm" },
+            { code: "W / A", title: "말하기 방식", desc: "스토리 vs 데이터", color: "border-ui-border bg-ui-bg-card shadow-sm" },
+            { code: "F / G", title: "변화 태도", desc: "선도 vs 검증", color: "border-ui-border bg-ui-bg-card shadow-sm" },
+            { code: "L / R", title: "문제 해결", desc: "논리 vs 관계", color: "border-ui-border bg-ui-bg-card shadow-sm" },
+            { code: "D / N", title: "가치 창출", desc: "깊이 vs 연결", color: "border-ui-border bg-ui-bg-card shadow-sm" },
           ].map((ax) => (
             <div key={ax.code} className={`rounded-xl border p-4 ${ax.color}`}>
               <div className="text-lg font-black text-ui-text-primary mb-1">{ax.code}</div>
@@ -492,9 +517,10 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* CTA */}
         <button
           onClick={onStart}
-          className="w-full bg-brand-main text-white font-black text-lg py-4 rounded-2xl hover:bg-brand-main/80 transition-all duration-200 tracking-tight shadow-md shadow-brand-main/20 mt-10"
+          className="w-full text-white font-black text-lg py-4 rounded-2xl hover:opacity-90 transition-all duration-200 tracking-tight shadow-lg mt-10"
+          style={{ background: "linear-gradient(224deg, #a5feca 0%, #3edceb 28.32%, #2594ff 62.4%, #5533ff 100%)" }}
         >
-          CAVE 검사 시작 →
+          나의 환승직업 찾기
         </button>
         <p className="text-center text-ui-text-secondary text-xs mt-4 font-medium">약 3분 소요 · 16문항</p>
       </div>
@@ -619,11 +645,11 @@ function ResultScreen({ code: initialCode, type: initialType, answers: initialAn
           </p>
           <div className="text-6xl md:text-7xl mb-4 drop-shadow-sm">{type.emoji}</div>
           <h1 className="text-4xl md:text-5xl font-black text-black mb-2 tracking-tight">{type.name}</h1>
-          <p className="text-ui-text-secondary font-semibold">{type.eng}</p>
+          <p className="font-semibold" style={{ color: "#2699F6" }}>{type.eng}</p>
         </div>
 
         {/* 코드 카드 */}
-        <div className={`rounded-[32px] bg-gradient-to-br ${type.color} p-8 mb-6 shadow-xl shadow-slate-200/50`}>
+        <div className="rounded-[32px] p-8 mb-6 shadow-xl shadow-slate-200/50" style={{ background: GRADIENTS[code] }}>
           <div className="flex justify-center gap-3 md:gap-4 mb-6">
             {code.split("").map((l: string, i: number) => {
               const m = letterMeta.find((x) => x.val === l);
@@ -719,7 +745,7 @@ function ResultScreen({ code: initialCode, type: initialType, answers: initialAn
           <div className="flex flex-col gap-3">
             {figures.map((fig: any, i: number) => (
               <div key={i} className="bg-ui-bg-card rounded-2xl p-5 flex gap-4 items-start border border-ui-border shadow-sm hover:shadow-md transition-all">
-                <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${type.color} flex items-center justify-center text-white font-black text-sm shrink-0 shadow-sm`}>
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shrink-0 shadow-sm" style={{ background: GRADIENTS[code] }}>
                   {i+1}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -774,8 +800,10 @@ function ResultScreen({ code: initialCode, type: initialType, answers: initialAn
                 onClick={() => setViewCode(c)}
                 type="button"
                 className={`rounded-2xl p-2 md:p-2.5 aspect-square flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                c === code ? `bg-gradient-to-br ${t.color} text-white shadow-md scale-105 ring-2 ring-white` : "bg-ui-bg-card border border-ui-border text-ui-text-secondary hover:bg-ui-bg-main"
-              }`}>
+                  c === code ? "text-white shadow-md scale-105 ring-2 ring-white" : "bg-ui-bg-card border border-ui-border text-ui-text-secondary hover:bg-ui-bg-main"
+                }`}
+                style={c === code ? { background: GRADIENTS[c] } : undefined}
+              >
                 <div className={`text-xs md:text-sm font-black`}>{c}</div>
                 <div className={`text-[10px] md:text-[11px] mt-1 font-medium leading-tight break-keep ${c === code ? "text-white/90" : "text-ui-text-secondary"}`}>
                   {t.name}
