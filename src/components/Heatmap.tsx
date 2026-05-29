@@ -1220,126 +1220,132 @@ const Heatmap = () => {
               </div>
             </div>
             
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-              <button 
-                type="button"
-                onClick={() => {
-                  setActiveFilter(null);
-                  setAiFilterActive(false);
-                  setSteadyFilterActive(false);
-                  setActiveStorylineId(null);
-                  setTimeout(() => {
-                    const el = document.querySelector('[data-year]');
-                    if (el) {
-                      const yOffset = -(window.innerHeight * 0.4) + 50;
-                      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                      window.scrollTo({ top: y, behavior: 'smooth' });
-                    }
-                  }, 100);
-                }}
-                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
-                  activeFilter === null && !aiFilterActive && !steadyFilterActive
-                    ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm' 
-                    : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
-                }`}
-              >
-                전체
-              </button>
-              {Object.keys(STATUS_STYLE).map(statusName => {
-                const ss = STATUS_STYLE[statusName];
-                const isActive = activeFilter === statusName;
-                const pillStyle = ss.filterPill || ss.pill;
-                return (
-                  <button
-                    type="button"
-                    key={statusName}
-                    onClick={() => {
-                      setActiveFilter(statusName);
-                      setAiFilterActive(false);
-                      setSteadyFilterActive(false);
-                      setActiveStorylineId(null);
-                      setTimeout(() => {
-                        const matchedJob = ALL_SIDEBAR_JOBS.find(j => j.status === statusName);
-                        if (matchedJob) {
-                          const jobId = `job-tl-${matchedJob.year}-${matchedJob.industry}-${encodeURIComponent(matchedJob.title)}`;
-                          let el = document.getElementById(jobId);
-                          if (!el) {
-                            el = document.querySelector(`[data-year="${matchedJob.year}"]`);
-                          }
-                          if (el) {
-                            const yOffset = -(window.innerHeight * 0.4) + 50;
-                            const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                            window.scrollTo({ top: y, behavior: 'smooth' });
-                          }
-                        }
-                      }, 100);
-                    }}
-                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 border ${
-                      isActive 
-                        ? pillStyle + ' shadow-sm' 
-                        : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
-                    }`}
-                  >
-                    {statusName}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Storylines Filter Section */}
-        <div className="w-full max-w-5xl px-4 flex flex-col items-center justify-center mb-8 gap-4 z-40 relative">
-          <div className="flex flex-wrap items-center justify-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-            {STORYLINES.map(story => (
-              <button
-                key={story.id}
-                onClick={() => {
-                  if (activeStorylineId === story.id) {
-                    setActiveStorylineId(null);
-                  } else {
-                    setActiveStorylineId(story.id);
+            {/* Filter Buttons & Storylines Filter Section */}
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mt-2 w-full max-w-6xl px-4 z-40 relative">
+              {/* Status Filters: 등장/확산/위험/소멸 */}
+              <div className="flex flex-wrap items-center justify-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                <button 
+                  type="button"
+                  onClick={() => {
                     setActiveFilter(null);
                     setAiFilterActive(false);
                     setSteadyFilterActive(false);
-                    setCutoffYear(2050);
-                    // Scroll to the first job of the storyline on the page window
+                    setActiveStorylineId(null);
                     setTimeout(() => {
-                      const firstJob = story.jobs[0];
-                      if (firstJob) {
-                        const jobId = `job-tl-${firstJob.year}-${firstJob.industry}-${encodeURIComponent(firstJob.title)}`;
-                        let el = document.getElementById(jobId);
-                        if (!el) {
-                          el = document.querySelector(`[data-year="${firstJob.year}"]`);
-                        }
-                        if (el) {
-                          const yOffset = -(window.innerHeight * 0.4) + 50;
-                          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                          window.scrollTo({ top: y, behavior: 'smooth' });
-                        }
+                      const el = document.querySelector('[data-year]');
+                      if (el) {
+                        const yOffset = -(window.innerHeight * 0.4) + 50;
+                        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
                       }
                     }, 100);
-                  }
-                }}
-                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
-                  activeStorylineId === story.id 
-                    ? 'bg-black text-white border-black shadow-sm font-semibold' 
-                    : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
-                }`}
-              >
-                {story.title}
-              </button>
-            ))}
-          </div>
-          
-          {activeStoryline && (
-            <div className="bg-ui-bg-main border border-ui-border p-4 rounded-lg text-center animate-fade-in w-full">
-              <p className="text-ui-text-primary font-bold text-sm md:text-base">
-                💡 {activeStoryline.insight}
-              </p>
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
+                    activeFilter === null && !aiFilterActive && !steadyFilterActive
+                      ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm' 
+                      : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+                  }`}
+                >
+                  전체
+                </button>
+                {Object.keys(STATUS_STYLE).map(statusName => {
+                  const ss = STATUS_STYLE[statusName];
+                  const isActive = activeFilter === statusName;
+                  const pillStyle = ss.filterPill || ss.pill;
+                  return (
+                    <button
+                      type="button"
+                      key={statusName}
+                      onClick={() => {
+                        setActiveFilter(statusName);
+                        setAiFilterActive(false);
+                        setSteadyFilterActive(false);
+                        setActiveStorylineId(null);
+                        setTimeout(() => {
+                          const matchedJob = ALL_SIDEBAR_JOBS.find(j => j.status === statusName);
+                          if (matchedJob) {
+                            const jobId = `job-tl-${matchedJob.year}-${matchedJob.industry}-${encodeURIComponent(matchedJob.title)}`;
+                            let el = document.getElementById(jobId);
+                            if (!el) {
+                              el = document.querySelector(`[data-year="${matchedJob.year}"]`);
+                            }
+                            if (el) {
+                              const yOffset = -(window.innerHeight * 0.4) + 50;
+                              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                              window.scrollTo({ top: y, behavior: 'smooth' });
+                            }
+                          }
+                        }, 100);
+                      }}
+                      className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 border ${
+                        isActive 
+                          ? pillStyle + ' shadow-sm' 
+                          : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+                      }`}
+                    >
+                      {statusName}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Theme Filters: 테마 */}
+              <div className="flex flex-wrap items-center justify-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                <span className="text-xs text-gray-500 font-semibold pl-3.5 pr-1.5 select-none pointer-events-none">
+                  테마
+                </span>
+                <div className="w-[1px] h-3.5 bg-[#EDEDED] self-center mr-1.5" />
+                {STORYLINES.map(story => (
+                  <button
+                    type="button"
+                    key={story.id}
+                    onClick={() => {
+                      if (activeStorylineId === story.id) {
+                        setActiveStorylineId(null);
+                      } else {
+                        setActiveStorylineId(story.id);
+                        setActiveFilter(null);
+                        setAiFilterActive(false);
+                        setSteadyFilterActive(false);
+                        setCutoffYear(2050);
+                        // Scroll to the first job of the storyline on the page window
+                        setTimeout(() => {
+                          const firstJob = story.jobs[0];
+                          if (firstJob) {
+                            const jobId = `job-tl-${firstJob.year}-${firstJob.industry}-${encodeURIComponent(firstJob.title)}`;
+                            let el = document.getElementById(jobId);
+                            if (!el) {
+                              el = document.querySelector(`[data-year="${firstJob.year}"]`);
+                            }
+                            if (el) {
+                              const yOffset = -(window.innerHeight * 0.4) + 50;
+                              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                              window.scrollTo({ top: y, behavior: 'smooth' });
+                            }
+                          }
+                        }, 100);
+                      }
+                    }}
+                    className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
+                      activeStorylineId === story.id 
+                        ? 'bg-black text-white border-black shadow-sm font-semibold' 
+                        : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+                    }`}
+                  >
+                    {story.title}
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
+
+            {activeStoryline && (
+              <div className="bg-ui-bg-main border border-ui-border p-4 rounded-lg text-center animate-fade-in w-full max-w-5xl z-40 relative mt-2">
+                <p className="text-ui-text-primary font-bold text-sm md:text-base">
+                  💡 {activeStoryline.insight}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="w-full max-w-7xl mx-auto flex gap-0 relative z-10 px-2 md:px-4">
@@ -1461,7 +1467,7 @@ const Heatmap = () => {
                               }}
                             >
                               <div className="relative z-10 text-center w-full py-1">
-                                <span className="block text-brand-main text-[8px] md:text-[9px] font-bold tracking-tighter mb-0.5">
+                                <span className="block text-brand-main text-[10px] md:text-[11px] font-bold tracking-tighter mb-0.5">
                                   {event.year}
                                 </span>
                                 <h3 className="text-white text-[8.5px] md:text-[10px] font-extrabold leading-[1.2] whitespace-normal break-words px-0.5">
@@ -1504,7 +1510,7 @@ const Heatmap = () => {
                                     </div>
                                     {isHighlighted && (
                                       <div 
-                                        className={`bg-[#727272] text-white text-[6px] md:text-[8px] p-2 md:p-2.5 rounded-md w-full text-center z-40 shadow-md pointer-events-none mb-4 -mt-0.5 ${chipAnimClass}`}
+                                        className={`bg-[#727272] text-white text-[8px] md:text-[10px] p-2 md:p-2.5 rounded-md w-full text-center z-40 shadow-md pointer-events-none mb-4 -mt-0.5 ${chipAnimClass}`}
                                         style={chipAnimStyle}
                                       >
                                         <span className="font-medium whitespace-normal break-keep leading-tight">{storyMatch.desc}</span>

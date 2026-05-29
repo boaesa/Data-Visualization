@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { ArrowRight } from "lucide-react";
 
 // ─────────────────────────────────────────────
 // 16문항 데이터
@@ -409,10 +410,10 @@ const JOBS: any = {
 };
 
 const STEP_INFO = [
-  { step: 1, axis: "W / A", label: "말하기 방식", color: "text-brand-extinction", bgColor: "bg-brand-extinction", bgOff: "bg-brand-extinction/30", textOff: "text-brand-extinction/60" },
-  { step: 2, axis: "F / G", label: "변화 태도",   color: "text-brand-appearance", bgColor: "bg-brand-appearance", bgOff: "bg-brand-appearance/30", textOff: "text-brand-appearance/60" },
-  { step: 3, axis: "L / R", label: "문제 해결",   color: "text-brand-spread", bgColor: "bg-brand-spread", bgOff: "bg-brand-spread/30", textOff: "text-brand-spread/60" },
-  { step: 4, axis: "D / N", label: "가치 창출",   color: "text-brand-threat", bgColor: "bg-brand-threat", bgOff: "bg-brand-threat/30", textOff: "text-brand-threat/60" },
+  { step: 1, axis: "W / A", label: "말하기 방식", color: "text-step-blue-3", bgColor: "bg-step-blue-1", bgOff: "bg-step-blue-1/30", textOff: "text-step-blue-3/40" },
+  { step: 2, axis: "F / G", label: "변화 태도",   color: "text-step-blue-3", bgColor: "bg-step-blue-2", bgOff: "bg-step-blue-2/30", textOff: "text-step-blue-3/40" },
+  { step: 3, axis: "L / R", label: "문제 해결",   color: "text-step-blue-3", bgColor: "bg-step-blue-3", bgOff: "bg-step-blue-3/30", textOff: "text-step-blue-3/40" },
+  { step: 4, axis: "D / N", label: "가치 창출",   color: "text-step-blue-4", bgColor: "bg-step-blue-4", bgOff: "bg-step-blue-4/30", textOff: "text-step-blue-4/40" },
 ];
 
 export default function CAVETest() {
@@ -511,7 +512,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* Top Row */}
         <div className="flex gap-4 md:gap-6 w-max animate-marquee-left hover:[animation-play-state:paused]">
           {[...pillTextsTop, ...pillTextsTop, ...pillTextsTop].map((text, idx) => (
-            <div key={`top-${idx}`} className="bg-white rounded-[1000px] px-6 py-[12px] md:px-8 md:py-[16px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+            <div key={`top-${idx}`} className="bg-white rounded-[1000px] px-6 py-[9px] md:px-8 md:py-[12px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
               {text}
             </div>
           ))}
@@ -520,19 +521,20 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* Bottom Row */}
         <div className="flex gap-4 md:gap-6 w-max animate-marquee-right hover:[animation-play-state:paused]">
           {[...pillTextsBottom, ...pillTextsBottom, ...pillTextsBottom].map((text, idx) => (
-            <div key={`bottom-${idx}`} className="bg-white rounded-[1000px] px-6 py-[12px] md:px-8 md:py-[16px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+            <div key={`bottom-${idx}`} className="bg-white rounded-[1000px] px-6 py-[9px] md:px-8 md:py-[12px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
               {text}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="w-full max-w-md md:max-w-xl mx-auto px-4 pb-12 z-10 mt-[40px]">
+      <div className="w-full max-w-xl md:max-w-2xl mx-auto px-2 pb-12 z-10 mt-[40px] flex justify-center">
         <button
           onClick={onStart}
-          className="w-full text-white font-black text-xl py-5 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 tracking-tight shadow-2xl cursor-pointer bg-[#121212]"
+          className="w-fit pl-10 pr-8 text-white font-black text-xl py-5 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 tracking-tight shadow-2xl cursor-pointer bg-[#121212] flex items-center gap-2"
         >
-          나의 환승직업 찾기
+          <span>나의 환승직업 찾기</span>
+          <ArrowRight className="w-5 h-5 stroke-[2.5]" />
         </button>
       </div>
     </div>
@@ -543,7 +545,7 @@ function TestScreen({ q, qNum, total, progress, stepInfo, stepProgress, onAnswer
   return (
     <div className="bg-ui-bg-card text-ui-text-primary flex flex-col py-24 min-h-screen">
       {/* 상단 스텝 인디케이터 */}
-      <div className="px-4 pb-4 max-w-lg mx-auto w-full">
+      <div className="px-4 pb-4 max-w-lg mx-auto w-full mt-[32px]">
         <div className="flex gap-2 mb-4">
           {stepProgress.map((s: any) => (
             <div key={s.step} className="flex-1">
@@ -651,12 +653,9 @@ function ResultScreen({ code: initialCode, type: initialType, answers: initialAn
       <div className="max-w-lg mx-auto px-4 mt-8">
         {/* 헤더 */}
         <div className="pt-10 pb-8 text-center">
-          <p className="text-brand-main font-extrabold text-xs tracking-[0.2em] uppercase mb-6 px-4 py-1.5 bg-brand-main/10 border border-brand-main/20 rounded-full inline-block">
-            CAVE 검사 결과
-          </p>
           <div className="text-6xl md:text-7xl mb-4 drop-shadow-sm">{type.emoji}</div>
           <h1 className="text-4xl md:text-5xl font-black text-black mb-2 tracking-tight">{type.name}</h1>
-          <p className="font-semibold" style={{ color: "#2699F6" }}>{type.eng}</p>
+          <p className="font-semibold" style={{ color: "#727272" }}>{type.eng}</p>
         </div>
 
         {/* 코드 카드 */}
@@ -666,7 +665,7 @@ function ResultScreen({ code: initialCode, type: initialType, answers: initialAn
               const m = letterMeta.find((x) => x.val === l);
               return (
                 <div key={i} className="text-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-ui-bg-card/90 backdrop-blur-md flex items-center justify-center text-3xl font-black text-black mb-2 shadow-sm border border-black/10">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-ui-bg-card/90 backdrop-blur-md flex items-center justify-center text-3xl font-black text-[#4D4D4D] mb-2 shadow-sm border border-black/10">
                     {l}
                   </div>
                   <div className="text-white/90 text-[11px] font-bold">{m?.desc}</div>
