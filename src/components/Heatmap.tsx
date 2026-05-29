@@ -995,21 +995,53 @@ const Heatmap = () => {
           </div>
           <p className="text-[10px] text-ui-text-secondary hidden md:block absolute right-0">스크롤하면 타임라인에 나타납니다.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => {
-            setSteadyFilterActive(!steadyFilterActive);
-            if (!steadyFilterActive) {
+        <div className="flex items-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+          <button
+            onClick={() => {
+              setSteadyFilterActive(false);
               setAiFilterActive(false);
               setActiveFilter(null);
-            }
-          }} className={`px-4 py-1.5 rounded-full text-[12px] font-bold transition-all duration-200 border ${steadyFilterActive ? 'bg-black text-white border-black shadow-sm' : 'bg-ui-bg-card text-ui-text-primary border-ui-border hover:bg-ui-bg-main'} `}>스테디셀러 직업</button>
-          <button onClick={() => {
-            setAiFilterActive(!aiFilterActive);
-            if (!aiFilterActive) {
-              setSteadyFilterActive(false);
-              setActiveFilter(null);
-            }
-          }} className={`px-4 py-1.5 rounded-full text-[12px] font-bold transition-all duration-200 border ${aiFilterActive ? 'bg-black text-white border-black shadow-sm' : 'bg-ui-bg-card text-ui-text-primary border-ui-border hover:bg-ui-bg-main'} `}>높은 대체 가능성</button>
+            }}
+            className={`px-4 py-1.5 rounded-full text-[12px] transition-all duration-300 border ${
+              (!steadyFilterActive && !aiFilterActive)
+                ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm'
+                : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+            }`}
+          >
+            전체
+          </button>
+          <button
+            onClick={() => {
+              setSteadyFilterActive(!steadyFilterActive);
+              if (!steadyFilterActive) {
+                setAiFilterActive(false);
+                setActiveFilter(null);
+              }
+            }}
+            className={`px-4 py-1.5 rounded-full text-[12px] transition-all duration-300 border ${
+              steadyFilterActive
+                ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm'
+                : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+            }`}
+          >
+            스테디셀러 직업
+          </button>
+          <button
+            onClick={() => {
+              setAiFilterActive(!aiFilterActive);
+              if (!aiFilterActive) {
+                setSteadyFilterActive(false);
+                setActiveFilter(null);
+              }
+            }}
+            className={`px-4 py-1.5 rounded-full text-[12px] transition-all duration-300 border ${
+              aiFilterActive
+                ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm'
+                : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
+            }`}
+          >
+            높은 대체 가능성
+          </button>
         </div>
         </div>
 
@@ -1132,6 +1164,16 @@ const Heatmap = () => {
             })}
           </div>
         </div>
+        {steadyFilterActive && (
+          <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 z-[100] bg-white text-[#383838] px-5 py-2.5 rounded-full border border-[#EDEDED] text-[13px] md:text-sm font-semibold shadow-[0_12px_30px_rgba(0,0,0,0.12)] whitespace-nowrap select-none animate-bounce pointer-events-none">
+            앞으로도 쭉 잘 나갈 스테디셀러 직업이예요
+          </div>
+        )}
+        {aiFilterActive && (
+          <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 z-[100] bg-white text-[#383838] px-5 py-2.5 rounded-full border border-[#EDEDED] text-[13px] md:text-sm font-semibold shadow-[0_12px_30px_rgba(0,0,0,0.12)] whitespace-nowrap select-none animate-bounce pointer-events-none">
+            앞으로 AI 대체 가능성이 높은 직업이예요
+          </div>
+        )}
       </section>
 
       {/* ───────────────────────────────────────────────────────── */}
@@ -1140,14 +1182,16 @@ const Heatmap = () => {
       <section id="timeline" className="w-full bg-ui-bg-card m-0 p-0 flex flex-col items-center relative z-40">
         
         {/* Timeline Industry Columns Header (Sticky inside timeline) */}
-        <div className="w-full bg-ui-bg-card/90 backdrop-blur-md border-b border-t border-ui-border pt-8 pb-8 z-50 sticky top-[64px] shadow-sm">
-          <div className="grid grid-cols-[55px_repeat(9,minmax(0,1fr))] md:grid-cols-[70px_repeat(9,minmax(0,1fr))] gap-0 w-full max-w-7xl mx-auto px-2 md:px-4">
-            <div className="text-ui-text-secondary text-[9px] md:text-xs font-bold flex items-center justify-center border-r border-ui-border">연도</div>
-            {INDUSTRIES.map(ind => (
-              <div key={`header-${ind.id}`} className="text-[#4D4D4D] text-[8px] md:text-xs font-bold text-center flex flex-col items-center justify-center px-0.5 break-keep leading-tight">
-                {ind.name}
-              </div>
-            ))}
+        <div className="w-full px-4 z-50 sticky top-[92px] pointer-events-none select-none my-4">
+          <div className="bg-ui-bg-card/95 backdrop-blur-md border border-ui-border rounded-full py-3 px-4 md:px-7 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.15)] w-full max-w-7xl mx-auto pointer-events-auto">
+            <div className="grid grid-cols-[55px_repeat(9,minmax(0,1fr))] md:grid-cols-[70px_repeat(9,minmax(0,1fr))] gap-0 w-full">
+              <div className="text-ui-text-secondary text-[9px] md:text-xs font-bold flex items-center justify-center border-r border-ui-border">연도</div>
+              {INDUSTRIES.map(ind => (
+                <div key={`header-${ind.id}`} className="text-[#4D4D4D] text-[8px] md:text-xs font-bold text-center flex flex-col items-center justify-center px-0.5 break-keep leading-tight">
+                  {ind.name}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -1177,7 +1221,7 @@ const Heatmap = () => {
             </div>
             
             {/* Filter Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
               <button 
                 type="button"
                 onClick={() => {
@@ -1194,10 +1238,10 @@ const Heatmap = () => {
                     }
                   }, 100);
                 }}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
                   activeFilter === null && !aiFilterActive && !steadyFilterActive
-                    ? 'bg-black text-white border-black shadow-sm' 
-                    : 'bg-ui-bg-card text-ui-text-secondary border border-ui-border hover:bg-ui-bg-main'
+                    ? 'text-[#121212] font-semibold bg-white border-[#EDEDED] shadow-sm' 
+                    : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
                 }`}
               >
                 전체
@@ -1231,10 +1275,10 @@ const Heatmap = () => {
                         }
                       }, 100);
                     }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 border ${
                       isActive 
-                        ? pillStyle + ' shadow-sm ring-1 ring-ui-border ring-offset-1' 
-                        : 'bg-ui-bg-card text-ui-text-secondary border border-ui-border hover:bg-ui-bg-main'
+                        ? pillStyle + ' shadow-sm' 
+                        : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
                     }`}
                   >
                     {statusName}
@@ -1247,7 +1291,7 @@ const Heatmap = () => {
 
         {/* Storylines Filter Section */}
         <div className="w-full max-w-5xl px-4 flex flex-col items-center justify-center mb-8 gap-4 z-40 relative">
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
             {STORYLINES.map(story => (
               <button
                 key={story.id}
@@ -1278,10 +1322,10 @@ const Heatmap = () => {
                     }, 100);
                   }
                 }}
-                className={`px-4 py-2 rounded-full text-sm font-bold transition-all duration-200 border ${
+                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-300 border ${
                   activeStorylineId === story.id 
-                    ? 'bg-black text-white border-black shadow-sm scale-105' 
-                    : 'bg-ui-bg-card text-ui-text-secondary border-ui-border hover:bg-ui-bg-main'
+                    ? 'bg-black text-white border-black shadow-sm font-semibold' 
+                    : 'text-gray-500 hover:text-black hover:bg-gray-100/70 font-normal border-transparent'
                 }`}
               >
                 {story.title}

@@ -488,13 +488,13 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="bg-gradient-to-b from-[#137BE2] to-[#BCEAFF] flex flex-col min-h-screen font-sans overflow-hidden relative">
       {/* Top Header Labels */}
-      <div className="absolute top-5 left-6 right-6 flex justify-between items-center text-[12px] text-[#FAFAFA] font-normal tracking-widest select-none pointer-events-none z-10">
+      <div className="absolute top-[32px] left-6 right-6 flex justify-between items-center text-[12px] text-[#FAFAFA] font-normal tracking-widest select-none pointer-events-none z-10">
         <div>데이터시각화와정보디자인I</div>
-        <div>최서은 김민주 백수빈 우정 이보아</div>
+        <div>최서은 김민주 박수빈 우정 이보아</div>
       </div>
       
       <div className="flex flex-col items-center text-center mt-20 md:mt-28 mb-12 px-4 z-10 w-full max-w-3xl mx-auto">
-        <h1 className="text-[80px] md:text-[116px] font-black tracking-tighter text-white mb-[60px]">
+        <h1 className="text-[80px] md:text-[116px] font-black tracking-tighter text-white mb-[60px] mt-[8px]">
           환승직업
         </h1>
         <p className="text-xl md:text-[26px] font-bold text-[#FFCE1B] leading-snug mb-5">
@@ -511,7 +511,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* Top Row */}
         <div className="flex gap-4 md:gap-6 w-max animate-marquee-left hover:[animation-play-state:paused]">
           {[...pillTextsTop, ...pillTextsTop, ...pillTextsTop].map((text, idx) => (
-            <div key={`top-${idx}`} className="bg-white rounded-[1000px] px-6 py-4 md:px-8 md:py-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+            <div key={`top-${idx}`} className="bg-white rounded-[1000px] px-6 py-[12px] md:px-8 md:py-[16px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
               {text}
             </div>
           ))}
@@ -520,14 +520,14 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         {/* Bottom Row */}
         <div className="flex gap-4 md:gap-6 w-max animate-marquee-right hover:[animation-play-state:paused]">
           {[...pillTextsBottom, ...pillTextsBottom, ...pillTextsBottom].map((text, idx) => (
-            <div key={`bottom-${idx}`} className="bg-white rounded-[1000px] px-6 py-4 md:px-8 md:py-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+            <div key={`bottom-${idx}`} className="bg-white rounded-[1000px] px-6 py-[12px] md:px-8 md:py-[16px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
               {text}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="w-full max-w-md md:max-w-xl mx-auto px-4 pb-12 z-10 mt-[20px]">
+      <div className="w-full max-w-md md:max-w-xl mx-auto px-4 pb-12 z-10 mt-[40px]">
         <button
           onClick={onStart}
           className="w-full text-white font-black text-xl py-5 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 tracking-tight shadow-2xl cursor-pointer bg-[#121212]"

@@ -24,21 +24,108 @@ import Heatmap from './components/Heatmap';
 import CAVETest from './components/CAVETest';
 
 export default function App() {
+  const [activeTab, setActiveTab ] = React.useState('#mbti-test');
+  const isScrollingToRef = React.useRef(false);
+  const scrollTimeoutRef = React.useRef<any>(null);
+
+  const handleTabClick = (hash: string) => {
+    setActiveTab(hash);
+    isScrollingToRef.current = true;
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = setTimeout(() => {
+      isScrollingToRef.current = false;
+    }, 1000);
+  };
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        setActiveTab(window.location.hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    
+    const observer = new IntersectionObserver((entries) => {
+      if (isScrollingToRef.current) return;
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveTab(`#${entry.target.id}`);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '-10% 0px -30% 0px' });
+
+    const sections = [
+      'mbti-test',
+      'background',
+      'job-list',
+      'timeline'
+    ];
+
+    const observedSet = new Set<string>();
+
+    const checkAndObserve = () => {
+      sections.forEach(id => {
+        if (observedSet.has(id)) return;
+        const el = document.getElementById(id);
+        if (el) {
+          observer.observe(el);
+          observedSet.add(id);
+        }
+      });
+    };
+
+    checkAndObserve();
+    const intervalId = setInterval(checkAndObserve, 500);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      clearInterval(intervalId);
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.unobserve(el);
+      });
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-ui-bg-main text-ui-text-primary font-sans selection:bg-ui-bg-card">
       
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-ui-bg-card/90 border-b border-ui-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-center">
-          <div className="hidden md:flex items-center gap-8 text-[14px] font-medium text-ui-text-secondary">
-            <a href="#mbti-test" className="px-5 py-2 bg-[#2699F6] hover:bg-[#2699F6]/90 text-white rounded-full font-bold transition-all text-[14px] mr-2">내 환승직업 찾기</a>
-            <a href="#background" className="hover:text-ui-text-primary transition-colors">배경</a>
-            <a href="#competency-analysis" className="hover:text-ui-text-primary transition-colors">역량 분석</a>
-            <a href="#industry-training" className="hover:text-ui-text-primary transition-colors">훈련 현황</a>
-            <a href="#future" className="hover:text-ui-text-primary transition-colors">유망 분야</a>
-            <a href="#job-list" className="hover:text-ui-text-primary transition-colors">직업 리스트</a>
-            <a href="#timeline" className="hover:text-ui-text-primary transition-colors">일자리 타임라인</a>
-          </div>
+      <nav className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw] md:max-w-fit pointer-events-auto">
+        <div className="bg-white/95 rounded-full shadow-[0_12px_40px_-12px_rgba(0,0,0,0.15)] border border-[#EDEDED] p-1.5 flex items-center gap-1 overflow-x-auto scrollbar-none whitespace-nowrap">
+          <a
+            href="#mbti-test"
+            onClick={() => handleTabClick('#mbti-test')}
+            className="px-4 py-2 md:px-5 md:py-2.5 bg-[#2699F6] text-white hover:bg-[#2699F6]/90 rounded-full font-bold transition-all text-[12px] md:text-[14px] duration-300 shadow-sm shrink-0"
+          >
+            내 환승직업 찾기
+          </a>
+          <a
+            href="#background"
+            onClick={() => handleTabClick('#background')}
+            className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all text-[12px] md:text-[14px] duration-300 ${activeTab === '#background' ? 'text-[#121212] font-bold' : 'text-gray-500 hover:text-black hover:bg-gray-100 font-normal'}`}
+          >
+            배경
+          </a>
+          <a
+            href="#job-list"
+            onClick={() => handleTabClick('#job-list')}
+            className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all text-[12px] md:text-[14px] duration-300 ${activeTab === '#job-list' ? 'text-[#121212] font-bold' : 'text-gray-500 hover:text-black hover:bg-gray-100 font-normal'}`}
+          >
+            직업 리스트
+          </a>
+          <a
+            href="#timeline"
+            onClick={() => handleTabClick('#timeline')}
+            className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all text-[12px] md:text-[14px] duration-300 ${activeTab === '#timeline' ? 'text-[#121212] font-bold' : 'text-gray-500 hover:text-black hover:bg-gray-100 font-normal'}`}
+          >
+            일자리 타임라인
+          </a>
         </div>
       </nav>
 
