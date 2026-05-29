@@ -60,7 +60,8 @@ export default function App() {
       'mbti-test',
       'background',
       'job-list',
-      'timeline'
+      'timeline',
+      'sources'
     ];
 
     const observedSet = new Set<string>();
@@ -125,6 +126,13 @@ export default function App() {
             className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all text-[12px] md:text-[14px] duration-300 ${activeTab === '#timeline' ? 'text-[#121212] font-bold' : 'text-gray-500 hover:text-black hover:bg-gray-100 font-normal'}`}
           >
             일자리 타임라인
+          </a>
+          <a
+            href="#sources"
+            onClick={() => handleTabClick('#sources')}
+            className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all text-[12px] md:text-[14px] duration-300 ${activeTab === '#sources' ? 'text-[#121212] font-bold' : 'text-gray-500 hover:text-black hover:bg-gray-100 font-normal'}`}
+          >
+            출처
           </a>
         </div>
       </nav>
@@ -462,6 +470,19 @@ export default function App() {
 
       {/* Job List & Timeline Rendered via Heatmap */}
       <Heatmap />
+
+      {/* Sources Section */}
+      <section id="sources" className="py-24 bg-ui-bg-card border-t border-ui-border">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Sources</span>
+            <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">출처</h2>
+          </div>
+          {/* Content is empty as requested */}
+          <div className="max-w-3xl mx-auto">
+          </div>
+        </div>
+      </section>
 
 
       {/* Analysis Framework (Bento Box) */}
