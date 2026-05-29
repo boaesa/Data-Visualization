@@ -71,7 +71,7 @@ const TYPES: any = {
     risk: "너무 넓게 퍼지다 보면 깊이를 잃을 수 있어요. 여러 분야를 넘나드시더라도 '이것만큼은 내가 전문가'라고 자신 있게 말할 수 있는 핵심 전문성 하나는 꼭 갖추세요.",
     keyword: ["커뮤니티", "미디어", "네트워커", "확장형"],
     figures: [
-      { name: "이진호(침착맨)", role: "크리에이터·사업가",  reason: "이야기와 유머로 팬덤을 만들고, 그 팬덤을 논리적으로 설계된 커뮤니티·플랫폼으로 빠르게 확장해온 크리에이터입니다. 말로 판을 열고 사람들을 모아 구조를 만드는 이 유형의 모습 그대로입니다." },
+      { name: "침착맨", role: "크리에이터·사업가",  reason: "이야기와 유머로 팬덤을 만들고, 그 팬덤을 논리적으로 설계된 커뮤니티·플랫폼으로 빠르게 확장해온 크리에이터입니다. 말로 판을 열고 사람들을 모아 구조를 만드는 이 유형의 모습 그대로입니다." },
       { name: "박재범",          role: "아티스트·창업자",    reason: "음악·브랜드·커뮤니티를 빠르게 연결하며 아무도 가르쳐주지 않은 독립적인 판을 스스로 짜온 엔터테인먼트 사업가입니다. 이야기(음악)+빠른 실행+네트워크 확장이 이 유형과 정확히 일치합니다." },
       { name: "마크 저커버그",   role: "Meta 창업자",        reason: "소셜미디어라는 개념을 이야기와 논리로 사람들에게 설득하고, 누구보다 빠르게 전 세계 플랫폼 생태계를 설계해온 창업자입니다. 스피드·구조 설계·네트워크 확장이라는 세 가지가 이 유형의 핵심입니다." },
     ],
@@ -466,63 +466,69 @@ export default function CAVETest() {
 }
 
 function IntroScreen({ onStart }: { onStart: () => void }) {
+  const pillTextsTop = [
+    "🧐 AI에겐 없는 나만의 장점이 있을까?",
+    "👤 인간만 할 수 있는 일이 진짜 남아있을까?",
+    "💡 AI한테 대체 안 되려면 뭘 해야 하지?",
+    "🤖 AI가 나보다 훨씬 똑똑해···.",
+    "🎨 코딩도 디자인도 요즘엔 AI가 다 해주던데?",
+    "🧭 지금이라도 다른 진로로 갈아타야 하나?",
+    "🔮 미래가 너무 불투명해."
+  ];
+
+  const pillTextsBottom = [
+    "⚡ AI가 따라 할 수 없는 나만의 무기를 갖고 싶어.",
+    "🥊 AI랑 경쟁해서 이길 자신이 없어!",
+    "🛡️ AI에 맞서 내 자리를 지켜내고 싶어.",
+    "❓ 대체 안 되는 분야가 있긴 해?",
+    "😭 지금까지 공부한 게 의미 없어졌어!",
+    "🔨 러다이트 운동 하자"
+  ];
+
   return (
-    <div className="bg-ui-bg-card text-ui-text-primary flex flex-col items-center justify-center px-4 py-24 min-h-screen">
-      <div className="max-w-lg w-full mt-auto mb-auto">
-        {/* 배지 */}
-        <div className="flex justify-center mb-6">
-          <span className="text-[10px] sm:text-xs tracking-[0.3em] font-bold text-brand-main uppercase border border-brand-main/20 bg-brand-spread/5 px-4 py-1.5 rounded-full">
-            NCS 직업공통능력 기반 · AI 시대 적합도 진단
-          </span>
-        </div>
+    <div className="bg-gradient-to-b from-[#137BE2] to-[#BCEAFF] flex flex-col min-h-screen font-sans overflow-hidden">
+      
+      <div className="flex flex-col items-center text-center mt-20 md:mt-28 mb-12 px-4 z-10 w-full max-w-3xl mx-auto">
+        <h1 className="text-[80px] md:text-[116px] font-black tracking-tighter text-white mb-[60px]">
+          환승직업
+        </h1>
+        <p className="text-xl md:text-[26px] font-bold text-[#FFCE1B] leading-snug mb-5">
+          네가 '인간아 미안해' 했잖아?<br className="block md:hidden" />
+          {" "}그럼 환승직업 이딴 거 안 찾아봤어
+        </p>
+        <p className="text-[15px] md:text-lg font-normal text-white leading-relaxed opacity-95">
+          AI 시대에 나는 살아남을 수 있을까? 막연한 불안감은 잠시 안녕!<br className="hidden md:block" />
+          간단한 테스트로 나를 기다리고 있는 환승직업을 매칭해 드릴게요.
+        </p>
+      </div>
 
-        {/* 로고 */}
-        <div className="text-center mb-2">
-          <h1 className="text-7xl font-black tracking-tight text-ui-text-primary leading-none">CAVE</h1>
-          <p className="font-medium text-sm mt-2 tracking-widest uppercase" style={{ color: "#2699F6" }}>
-            Career AI Viability Evaluation
-          </p>
-        </div>
-
-        {/* 카피 */}
-        <div className="text-center mt-8 mb-10">
-          <p className="text-2xl font-bold text-[#2699F6]" style={{ lineHeight: "calc(1.375em + 4px)", marginBottom: "20px" }}>
-            네가 '인간아 미안해' 했잖아?<br />
-            <span>그럼 환승직업 이딴 거 안 찾아봤어</span>
-          </p>
-          <p className="font-medium" style={{ color: "#121212", fontSize: "20px", marginBottom: "12px" }}>
-            AI 시대에서 나는 먹고 살 수 있을까?
-          </p>
-          <p className="text-ui-text-secondary font-medium text-sm">
-            16문항 · 4글자 코드 · 16가지 생존 유형
-          </p>
-        </div>
-
-        {/* 4축 미리보기 */}
-        <div className="grid grid-cols-2 gap-3 mb-10">
-          {[
-            { code: "W / A", title: "말하기 방식", desc: "스토리 vs 데이터", color: "border-ui-border bg-ui-bg-card shadow-sm" },
-            { code: "F / G", title: "변화 태도", desc: "선도 vs 검증", color: "border-ui-border bg-ui-bg-card shadow-sm" },
-            { code: "L / R", title: "문제 해결", desc: "논리 vs 관계", color: "border-ui-border bg-ui-bg-card shadow-sm" },
-            { code: "D / N", title: "가치 창출", desc: "깊이 vs 연결", color: "border-ui-border bg-ui-bg-card shadow-sm" },
-          ].map((ax) => (
-            <div key={ax.code} className={`rounded-xl border p-4 ${ax.color}`}>
-              <div className="text-lg font-black text-ui-text-primary mb-1">{ax.code}</div>
-              <div className="text-xs font-bold text-ui-text-secondary">{ax.title}</div>
-              <div className="text-xs text-ui-text-secondary mt-0.5 font-medium">{ax.desc}</div>
+      <div className="w-full overflow-hidden flex flex-col gap-4 md:gap-6 mb-auto py-8">
+        {/* Top Row */}
+        <div className="flex gap-4 md:gap-6 w-max animate-marquee-left hover:[animation-play-state:paused]">
+          {[...pillTextsTop, ...pillTextsTop, ...pillTextsTop].map((text, idx) => (
+            <div key={`top-${idx}`} className="bg-white rounded-[1000px] px-6 py-4 md:px-8 md:py-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+              {text}
             </div>
           ))}
         </div>
+        
+        {/* Bottom Row */}
+        <div className="flex gap-4 md:gap-6 w-max animate-marquee-right hover:[animation-play-state:paused]">
+          {[...pillTextsBottom, ...pillTextsBottom, ...pillTextsBottom].map((text, idx) => (
+            <div key={`bottom-${idx}`} className="bg-white rounded-[1000px] px-6 py-4 md:px-8 md:py-5 shadow-[0_4px_20px_rgba(0,0,0,0.06)] text-[#121212] text-[15px] md:text-[17px] font-normal whitespace-nowrap">
+              {text}
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* CTA */}
+      <div className="w-full max-w-md md:max-w-xl mx-auto px-4 pb-12 z-10 mt-[20px]">
         <button
           onClick={onStart}
-          className="w-full text-white font-black text-lg py-4 rounded-2xl hover:opacity-90 transition-all duration-200 tracking-tight shadow-lg mt-10"
-          style={{ background: "linear-gradient(224deg, #a5feca 0%, #3edceb 28.32%, #2594ff 62.4%, #5533ff 100%)" }}
+          className="w-full text-white font-black text-xl py-5 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 tracking-tight shadow-2xl cursor-pointer bg-[#121212]"
         >
           나의 환승직업 찾기
         </button>
-        <p className="text-center text-ui-text-secondary text-xs mt-4 font-medium">약 3분 소요 · 16문항</p>
       </div>
     </div>
   );
