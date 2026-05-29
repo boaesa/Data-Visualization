@@ -803,12 +803,8 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-ui-bg-card py-12 border-t border-ui-border">
-        <div className="max-w-7xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
-          <div className="flex items-center gap-2 text-ui-text-primary mb-4 md:mb-0">
-            <Database className="w-5 h-5 text-ui-text-primary" />
-            <span className="font-semibold">Ready-Core Vis</span>
-          </div>
-          <p className="text-[16px] text-ui-text-secondary">
+        <div className="max-w-7xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center justify-center md:justify-between">
+          <p className="text-[16px] text-ui-text-secondary w-full text-center">
             &copy; 2026 데이터 시각화 프로젝트 - AI 시대 생존 가이드. All rights reserved.
           </p>
         </div>
