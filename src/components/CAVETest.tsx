@@ -486,7 +486,12 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-[#137BE2] to-[#BCEAFF] flex flex-col min-h-screen font-sans overflow-hidden">
+    <div className="bg-gradient-to-b from-[#137BE2] to-[#BCEAFF] flex flex-col min-h-screen font-sans overflow-hidden relative">
+      {/* Top Header Labels */}
+      <div className="absolute top-5 left-6 right-6 flex justify-between items-center text-[12px] text-[#FAFAFA] font-normal tracking-widest select-none pointer-events-none z-10">
+        <div>데이터시각화와정보디자인I</div>
+        <div>최서은 김민주 백수빈 우정 이보아</div>
+      </div>
       
       <div className="flex flex-col items-center text-center mt-20 md:mt-28 mb-12 px-4 z-10 w-full max-w-3xl mx-auto">
         <h1 className="text-[80px] md:text-[116px] font-black tracking-tighter text-white mb-[60px]">
@@ -497,7 +502,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
           {" "}그럼 환승직업 이딴 거 안 찾아봤어
         </p>
         <p className="text-[15px] md:text-lg font-normal text-white leading-relaxed opacity-95">
-          AI 시대에 나는 살아남을 수 있을까? 막연한 불안감은 잠시 안녕!<br className="hidden md:block" />
+          AI 시대에 나는 살아남을 수 있을까? 그런 막연한 불안감은 잠시 안녕!<br className="hidden md:block" />
           간단한 테스트로 나를 기다리고 있는 환승직업을 매칭해 드릴게요.
         </p>
       </div>
