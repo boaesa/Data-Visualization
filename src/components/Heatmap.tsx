@@ -1182,8 +1182,8 @@ const Heatmap = () => {
       <section id="timeline" className="w-full bg-ui-bg-card m-0 p-0 flex flex-col items-center relative z-40">
         
         {/* Timeline Industry Columns Header (Sticky inside timeline) */}
-        <div className="w-full px-4 z-50 sticky top-[92px] pointer-events-none select-none my-4">
-          <div className="bg-ui-bg-card/95 backdrop-blur-md border border-ui-border rounded-full py-3 px-4 md:px-7 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.15)] w-full max-w-7xl mx-auto pointer-events-auto">
+        <div className="w-full max-w-7xl mx-auto px-2 md:px-4 z-50 sticky top-[92px] pointer-events-none select-none my-4">
+          <div className="bg-ui-bg-card/95 backdrop-blur-md border border-ui-border rounded-full py-3 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.15)] w-full pointer-events-auto">
             <div className="grid grid-cols-[55px_repeat(9,minmax(0,1fr))] md:grid-cols-[70px_repeat(9,minmax(0,1fr))] gap-0 w-full">
               <div className="text-ui-text-secondary text-[9px] md:text-xs font-bold flex items-center justify-center border-r border-ui-border">연도</div>
               {INDUSTRIES.map(ind => (
