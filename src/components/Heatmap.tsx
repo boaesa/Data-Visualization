@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ArrowUp } from 'lucide-react';
 import DATA from './HeatmapData.json';
+import { JOB_DESCRIPTIONS } from './jobDescriptions';
+import { AnimatePresence, motion } from 'motion/react';
 
 const INDUSTRIES = [
   { id: 'J', name: '정보통신업',           keyword: 'technology,data'     },
@@ -141,7 +143,7 @@ export const RAW_JOBS = [
   { industry: '정보통신업', year: 1980, title: '전산 운영원', status: '등장' },
   { industry: '예술·스포츠 및 여가', year: 1950, title: '타이피스트', status: '확산' },
   { industry: '정보통신업', year: 1994, title: 'IT PM', status: '등장' },
-  { industry: '정보통신업', year: 2030, title: 'IT 시스템 운영자', status: '확산' },
+  { industry: '정보통신업', year: 2030, title: 'AI 기반 IT 시스템 운영자', status: '확산' },
   { industry: '정보통신업', year: 2030, title: '웹 개발자', status: '확산' },
   { industry: '정보통신업', year: 1998, title: 'PC방 운영자', status: '등장' },
   { industry: '정보통신업', year: 1998, title: 'e비즈니스 기획자', status: '등장' },
@@ -180,18 +182,14 @@ export const RAW_JOBS = [
   { industry: '정보통신업', year: 2023, title: 'AI 에이전트 개발자', status: '등장' },
   { industry: '정보통신업', year: 2030, title: 'AI 감사관', status: '등장' },
   { industry: '정보통신업', year: 2030, title: 'AI 안전 연구원', status: '등장' },
-  { industry: '정보통신업', year: 2030, title: 'AI 엔지니어·ML 전문가', status: '등장' },
+  { industry: '정보통신업', year: 2030, title: 'AI·ML 통합 엔지니어', status: '등장' },
   { industry: '정보통신업', year: 2030, title: '디지털 트윈 엔지니어', status: '등장' },
-  { industry: '정보통신업', year: 2030, title: '소프트웨어 개발자(초급)', status: '등장' },
   { industry: '정보통신업', year: 2030, title: '양자 컴퓨팅 엔지니어', status: '등장' },
-  { industry: '정보통신업', year: 2035, title: 'AI 에이전트 오케스트레이터', status: '등장' },
-  { industry: '정보통신업', year: 2035, title: '사이버 물리 시스템 엔지니어', status: '등장' },
+  { industry: '정보통신업', year: 2035, title: 'AI 에이전트 통합 운영자', status: '등장' },
   { industry: '정보통신업', year: 2035, title: '사이버-물리 시스템 엔지니어', status: '등장' },
   { industry: '정보통신업', year: 2035, title: '양자 암호 전문가', status: '등장' },
-  { industry: '정보통신업', year: 2035, title: '양자컴퓨팅 전문가', status: '등장' },
   { industry: '정보통신업', year: 2040, title: 'AI 인격 설계자', status: '등장' },
   { industry: '정보통신업', year: 2040, title: '뇌-컴퓨터 인터페이스 개발자', status: '등장' },
-  { industry: '정보통신업', year: 2040, title: '범용AI 운영 전문가', status: '등장' },
   { industry: '정보통신업', year: 2045, title: 'AI 공진화 연구원', status: '등장' },
   { industry: '정보통신업', year: 2045, title: '가상 세계 건축가', status: '등장' },
   { industry: '정보통신업', year: 2050, title: '양자-AI 융합 개발자', status: '등장' },
@@ -224,14 +222,11 @@ export const RAW_JOBS = [
   { industry: '금융 및 보험업', year: 2017, title: '암호화폐 트레이더', status: '등장' },
   { industry: '금융 및 보험업', year: 2020, title: 'ESG 투자 분석가', status: '등장' },
   { industry: '금융 및 보험업', year: 2021, title: '디지털 자산 컴플라이언스', status: '등장' },
-  { industry: '금융 및 보험업', year: 2030, title: 'AI 리스크 모델러', status: '등장' },
   { industry: '금융 및 보험업', year: 2030, title: 'AI 리스크 분석가', status: '등장' },
   { industry: '금융 및 보험업', year: 2035, title: 'AI 자산 운용 전문가', status: '등장' },
   { industry: '금융 및 보험업', year: 2045, title: 'AI 투자 감독관', status: '확산' },
-  { industry: '금융 및 보험업', year: 2035, title: '디지털 화폐 운영자', status: '등장' },
-  { industry: '금융 및 보험업', year: 2035, title: '디지털 화폐(CBDC) 전문가', status: '등장' },
-  { industry: '금융 및 보험업', year: 2040, title: '개인 재무 AI 어드바이저', status: '등장' },
-  { industry: '금융 및 보험업', year: 2040, title: '개인 재무 AI 코치', status: '등장' },
+  { industry: '금융 및 보험업', year: 2035, title: 'CBDC 디지털 화폐 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2040, title: '개인 재무 AI 상담사', status: '등장' },
   { industry: '금융 및 보험업', year: 2050, title: '탄소 크레딧 거래소 운영자', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 1876, title: '통역관·역관', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 1890, title: '신식 의사', status: '등장' },
@@ -276,19 +271,15 @@ export const RAW_JOBS = [
   { industry: '전문과학 및 기술서비스업', year: 2022, title: 'AI 법률 서비스 기획자', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2030, title: 'AI 특허 심사관', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2030, title: '그린테크 전문가', status: '등장' },
-  { industry: '전문과학 및 기술서비스업', year: 2030, title: '번역가(단순)', status: '등장' },
-  { industry: '전문과학 및 기술서비스업', year: 2035, title: 'AI 규제 전문가', status: '등장' },
-  { industry: '전문과학 및 기술서비스업', year: 2035, title: 'AI 규제·거버넌스 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2035, title: 'AI 규제 및 거버넌스 전문가', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2035, title: '기후공학 기술자', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2035, title: '탄소배출권 전문가', status: '등장' },
-  { industry: '전문과학 및 기술서비스업', year: 2040, title: 'AI 윤리 판사', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2040, title: 'AI 윤리·거버넌스 전문가', status: '등장' },
-  { industry: '전문과학 및 기술서비스업', year: 2040, title: '지속가능성 전략가', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2045, title: 'AI 법인 대리인', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2045, title: 'AI 윤리·철학 연구자', status: '등장' },
   { industry: '전문과학 및 기술서비스업', year: 2050, title: '인류 지식 보존사', status: '등장' },
   { industry: '교육서비스업', year: 1990, title: '학습지 교사', status: '확산' },
-  { industry: '운수 및 창고업', year: 2030, title: '배달원(라이더)', status: '소멸' },
+  { industry: '운수 및 창고업', year: 2030, title: '배달 라이더', status: '소멸' },
   { industry: '예술·스포츠 및 여가', year: 1919, title: '신문 기자', status: '확산' },
   { industry: '예술·스포츠 및 여가', year: 1940, title: '활동사진 변사', status: '확산' },
   { industry: '예술·스포츠 및 여가', year: 1920, title: '사진작가', status: '등장' },
@@ -364,9 +355,6 @@ export const RAW_JOBS = [
   { industry: '예술·스포츠 및 여가', year: 2035, title: 'AI 창작 디렉터', status: '확산' },
   { industry: '예술·스포츠 및 여가', year: 2030, title: '유튜버·숏폼 크리에이터', status: '등장' },
   { industry: '예술·스포츠 및 여가', year: 2030, title: '홀로그램 공연 기획자', status: '등장' },
-  { industry: '예술·스포츠 및 여가', year: 2035, title: 'XR 경험 설계자', status: '등장' },
-  { industry: '예술·스포츠 및 여가', year: 2035, title: '디지털 경험 설계자', status: '등장' },
-  { industry: '예술·스포츠 및 여가', year: 2040, title: '감성 AI 설계자', status: '등장' },
   { industry: '예술·스포츠 및 여가', year: 2040, title: '몰입형 경험 디렉터', status: '등장' },
   { industry: '예술·스포츠 및 여가', year: 2045, title: '감성 콘텐츠 치료사', status: '등장' },
   { industry: '예술·스포츠 및 여가', year: 2045, title: '디지털 유산 관리사', status: '등장' },
@@ -419,12 +407,10 @@ export const RAW_JOBS = [
   { industry: '보건업 및 사회복지', year: 2022, title: 'AI 신약 개발 연구원', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2023, title: '디지털 치료제 개발자', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2030, title: 'AI 진단 보조원', status: '등장' },
-  { industry: '보건업 및 사회복지', year: 2030, title: '간호 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2030, title: '전문 임상 간호사', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2030, title: '나노의학 기술자', status: '등장' },
-  { industry: '보건업 및 사회복지', year: 2030, title: '요양보호사·돌봄 전문가', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2035, title: 'AI 의료 협업 전문가', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2035, title: '노인 돌봄 로봇 운영사', status: '등장' },
-  { industry: '보건업 및 사회복지', year: 2035, title: '노인 돌봄 전문가', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2035, title: '유전자 치료 연구원', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2035, title: '유전자 편집 기술자', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2040, title: 'AI 의료 코디네이터', status: '등장' },
@@ -432,7 +418,6 @@ export const RAW_JOBS = [
   { industry: '보건업 및 사회복지', year: 2040, title: '정신건강 AI 치료사', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2045, title: 'AI 돌봄 시스템 설계사', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2045, title: '노화 역전 연구원', status: '등장' },
-  { industry: '보건업 및 사회복지', year: 2050, title: 'AI 돌봄 윤리 전문가', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2050, title: '수명 연장 전문의', status: '등장' },
   { industry: '보건업 및 사회복지', year: 2050, title: '우주 의료 전문가', status: '등장' },
   { industry: '교육서비스업', year: 1945, title: '교사(공교육)', status: '등장' },
@@ -462,10 +447,8 @@ export const RAW_JOBS = [
   { industry: '교육서비스업', year: 2020, title: '메타버스 교육 기획자', status: '등장' },
   { industry: '교육서비스업', year: 2020, title: '방역 교육 강사', status: '등장' },
   { industry: '교육서비스업', year: 2025, title: 'AI 디지털 교과서 개발자', status: '등장' },
-  { industry: '교육서비스업', year: 2030, title: '대학·중등교육 교사', status: '등장' },
   { industry: '교육서비스업', year: 2035, title: '평생학습 설계사', status: '확산' },
   { industry: '교육서비스업', year: 2035, title: 'AI 러닝 코치', status: '등장' },
-  { industry: '교육서비스업', year: 2035, title: '평생학습 플래너', status: '등장' },
   { industry: '교육서비스업', year: 2040, title: '인간 역량 개발 코치', status: '등장' },
   { industry: '교육서비스업', year: 2045, title: '경험 학습 설계자', status: '등장' },
   { industry: '교육서비스업', year: 2050, title: '인간 본질 교육자', status: '등장' },
@@ -502,13 +485,11 @@ export const RAW_JOBS = [
   { industry: '공공행정 및 국방', year: 2020, title: '군 AI 운영 전문요원', status: '등장' },
   { industry: '공공행정 및 국방', year: 2020, title: '기후 활동가', status: '등장' },
   { industry: '공공행정 및 국방', year: 2020, title: '디지털 포렌식 수사관', status: '등장' },
-  { industry: '공공행정 및 국방', year: 2030, title: '공공 AI 서비스 기획자', status: '등장' },
-  { industry: '공공행정 및 국방', year: 2030, title: '민원 처리 공무원(단순)', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2030, title: 'AI 행정 서비스 기획관', status: '등장' },
   { industry: '공공행정 및 국방', year: 2030, title: '사이버 안보 전문가', status: '등장' },
-  { industry: '공공행정 및 국방', year: 2035, title: 'AI 공공서비스 감독관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2035, title: 'AI 행정 서비스 감독관', status: '등장' },
   { industry: '공공행정 및 국방', year: 2035, title: '사이버 안보 전략가', status: '등장' },
   { industry: '공공행정 및 국방', year: 2035, title: '스마트시티 운영 전문가', status: '등장' },
-  { industry: '공공행정 및 국방', year: 2040, title: '국가 AI 거버넌스 위원', status: '등장' },
   { industry: '공공행정 및 국방', year: 2040, title: '국가 AI 거버넌스 전문관', status: '등장' },
   { industry: '공공행정 및 국방', year: 2050, title: '기후 긴급 대응 전문가', status: '등장' },
   { industry: '공공행정 및 국방', year: 2050, title: '달·화성 행정 전문가', status: '등장' },
@@ -570,13 +551,12 @@ export const RAW_JOBS = [
   { industry: '제조업', year: 2023, title: '탄소 포집 기술자', status: '등장' },
   { industry: '제조업', year: 2030, title: '배터리·신에너지 엔지니어', status: '등장' },
   { industry: '제조업', year: 2030, title: '우주 부품 제조 엔지니어', status: '등장' },
-  { industry: '제조업', year: 2030, title: '조립 생산직(단순 반복)', status: '등장' },
+  { industry: '제조업', year: 2030, title: '수작업 조립 기술자', status: '등장' },
   { industry: '제조업', year: 2035, title: '첨단소재 연구원', status: '등장' },
   { industry: '제조업', year: 2035, title: '휴머노이드 로봇 운영자', status: '등장' },
   { industry: '제조업', year: 2040, title: '스마트팩토리 AI 감독관', status: '등장' },
   { industry: '제조업', year: 2040, title: '핵융합 발전 기술자', status: '등장' },
-  { industry: '제조업', year: 2045, title: '에너지 저장 시스템 전문가', status: '등장' },
-  { industry: '제조업', year: 2050, title: '에너지 제로 건축 기술자', status: '등장' },
+  { industry: '제조업', year: 2045, title: 'E-제로 건축 기술자', status: '등장' },
   { industry: '제조업', year: 2050, title: '우주 발사체 기술자', status: '등장' },
   { industry: '운수 및 창고업', year: 2050, title: '선박 운항사', status: '확산' },
   { industry: '운수 및 창고업', year: 1940, title: '인력거꾼', status: '확산' },
@@ -620,11 +600,188 @@ export const RAW_JOBS = [
   { industry: '운수 및 창고업', year: 2030, title: '자율주행 모빌리티 기획자', status: '등장' },
   { industry: '운수 및 창고업', year: 2030, title: '항만 자동화 운영관', status: '등장' },
   { industry: '운수 및 창고업', year: 2035, title: '모빌리티 서비스 관리자', status: '등장' },
-  { industry: '운수 및 창고업', year: 2035, title: '모빌리티 서비스 매니저', status: '등장' },
   { industry: '운수 및 창고업', year: 2040, title: '우주 물류 전문가', status: '등장' },
   { industry: '운수 및 창고업', year: 2050, title: '자율주행 인프라 엔지니어', status: '확산' },
   { industry: '운수 및 창고업', year: 2045, title: '자율운항 선박 관제사', status: '등장' },
   { industry: '운수 및 창고업', year: 2050, title: '도심항공(UAM) 교통 관제사', status: '등장' },
+
+  // [정보통신업 - 신규 2031~2050]
+  { industry: '정보통신업', year: 2031, title: '엣지 AI 인프라 엔지니어', status: '등장' },
+  { industry: '정보통신업', year: 2033, title: '신경망 칩 설계 엔지니어', status: '등장' },
+  { industry: '정보통신업', year: 2034, title: 'AI 데이터 거버넌스 전문가', status: '등장' },
+  { industry: '정보통신업', year: 2035, title: '분산 AI 시스템 아키텍트', status: '등장' },
+  { industry: '정보통신업', year: 2036, title: '자율 AI 시스템 감시자', status: '등장' },
+  { industry: '정보통신업', year: 2039, title: 'AI 협업 플랫폼 설계자', status: '등장' },
+  { industry: '정보통신업', year: 2040, title: '양자 네트워크 엔지니어', status: '등장' },
+  { industry: '정보통신업', year: 2041, title: '생체 인터페이스 소프트웨어 엔지니어', status: '등장' },
+  { industry: '정보통신업', year: 2042, title: 'AI 모델 윤리 감사자', status: '등장' },
+  { industry: '정보통신업', year: 2043, title: '탈중앙 인터넷(Web3) 아키텍트', status: '등장' },
+  { industry: '정보통신업', year: 2044, title: '신경형 컴퓨팅 전문가', status: '등장' },
+  { industry: '정보통신업', year: 2045, title: '의식 데이터 분석가', status: '등장' },
+  { industry: '정보통신업', year: 2046, title: '인지 증강 소프트웨어 개발자', status: '등장' },
+  { industry: '정보통신업', year: 2047, title: '범용 AI 안전 시스템 설계자', status: '등장' },
+  { industry: '정보통신업', year: 2048, title: 'AI 생태계 지속가능성 전문가', status: '등장' },
+  { industry: '정보통신업', year: 2049, title: '디지털-물리 통합 아키텍트', status: '등장' },
+  { industry: '정보통신업', year: 2050, title: 'AI 문명 전환 전략가', status: '등장' },
+
+  // [금융 및 보험업 - 신규 2031~2050]
+  { industry: '금융 및 보험업', year: 2031, title: '탈중앙화 금융(DeFi) 운영 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2032, title: 'AI 신용평가 시스템 관리자', status: '등장' },
+  { industry: '금융 및 보험업', year: 2033, title: '실시간 금융 데이터 분석가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2034, title: '기후 리스크 금융 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2035, title: '토큰화 자산 운용 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2036, title: '마이크로파이낸스 AI 운용자', status: '등장' },
+  { industry: '금융 및 보험업', year: 2037, title: '생체 데이터 기반 보험 설계사', status: '등장' },
+  { industry: '금융 및 보험업', year: 2038, title: '양자 암호 금융 보안 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2039, title: '스마트 컨트랙트 금융 개발자', status: '등장' },
+  { industry: '금융 및 보험업', year: 2040, title: '초개인화 보험 상품 설계사', status: '등장' },
+  { industry: '금융 및 보험업', year: 2041, title: '탄소 금융 전략가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2042, title: '우주 자산 금융 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2043, title: 'AI 금융 규제 감시관', status: '등장' },
+  { industry: '금융 및 보험업', year: 2044, title: '감성 분석 기반 투자 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2045, title: '수명 연장 재무 설계사', status: '등장' },
+  { industry: '금융 및 보험업', year: 2047, title: '디지털 유산 자산 관리사', status: '등장' },
+  { industry: '금융 및 보험업', year: 2048, title: '가상 경제 금융 감독관', status: '등장' },
+  { industry: '금융 및 보험업', year: 2049, title: '행성 간 금융 결제 전문가', status: '등장' },
+  { industry: '금융 및 보험업', year: 2050, title: '범용 AI 재무 감독관', status: '등장' },
+
+  // [전문과학 및 기술서비스업 - 신규 2031~2050]
+  { industry: '전문과학 및 기술서비스업', year: 2031, title: '탄소 중립 인증 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2032, title: 'AI 특허 전략 컨설턴트', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2033, title: '지속가능성 공학 컨설턴트', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2034, title: '바이오테크 윤리 컨설턴트', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2035, title: '스마트시티 기술 컨설턴트', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2037, title: '사이버 법률 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2039, title: '우주법 전문 변호사', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2040, title: '행동경제학 AI 컨설턴트', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2041, title: '생태계 서비스 가치 평가사', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2042, title: '디지털 법의학 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2043, title: '뇌과학 응용 연구원', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2044, title: '범용 AI 공공정책 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2045, title: '트랜스휴먼 윤리 연구원', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2046, title: '기후 소송 전문 변호사', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2047, title: 'AI 신약 특허 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2048, title: '의식 연구 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2049, title: '나노 소재 연구 전문가', status: '등장' },
+  { industry: '전문과학 및 기술서비스업', year: 2050, title: '종간 소통 연구원', status: '등장' },
+
+  // [보건업 및 사회복지 - 신규 2031~2050]
+  { industry: '보건업 및 사회복지', year: 2031, title: '원격 수술 로봇 전문의', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2032, title: '맞춤형 유전체 상담사', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2033, title: 'AI 정신건강 분석 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2034, title: '마이크로바이옴 연구원', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2035, title: '스마트 의료기기 운영 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2036, title: '신경 인터페이스 치료사', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2038, title: '노화 바이오마커 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2039, title: '개인 맞춤형 백신 개발자', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2040, title: '감정 지원 로봇 운영 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2042, title: '우주 환경 의학 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2043, title: '디지털 치매 예방 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2044, title: '생체 데이터 보안 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2045, title: 'AI 재활 치료 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2046, title: '뇌 신호 분석 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2047, title: '신체 증강 수술 전문의', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2048, title: '범용 AI 의료 안전 감독관', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2049, title: '불멸화 기술 윤리 전문가', status: '등장' },
+  { industry: '보건업 및 사회복지', year: 2050, title: '다중 생애 설계 전문가', status: '등장' },
+
+  // [예술·스포츠 및 여가 - 신규 2031~2050]
+  { industry: '예술·스포츠 및 여가', year: 2031, title: 'AI 음악 큐레이터', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2032, title: '몰입형 스포츠 경험 설계자', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2033, title: '가상 콘서트 프로듀서', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2034, title: 'AI 공동 창작 예술가', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2037, title: '스포츠 생체역학 분석가', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2040, title: '가상 스포츠 리그 운영자', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2043, title: '초현실 체험 여행 기획자', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2044, title: '인간 창작물 가치 감정사', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2045, title: '신체 퍼포먼스 생체공학 전문가', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2046, title: '우주 관광 엔터테인먼트 기획자', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2047, title: '기억 예술 아카이비스트', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2048, title: '집단 몰입 경험 디렉터', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2049, title: '비인간 창작 권리 중재자', status: '등장' },
+  { industry: '예술·스포츠 및 여가', year: 2050, title: '문화 멸종 방지 큐레이터', status: '등장' },
+
+  // [운수 및 창고업 - 신규 2031~2050]
+  { industry: '운수 및 창고업', year: 2031, title: '자율주행 물류 시스템 관제사', status: '등장' },
+  { industry: '운수 및 창고업', year: 2032, title: '전기차 물류 인프라 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2033, title: 'UAM 지상 운영 지원 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2034, title: '스마트 항만 데이터 분석가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2035, title: '하이퍼루프 물류 운영자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2036, title: '초고속 배송 네트워크 설계자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2037, title: '로봇 물류 센터 관리자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2038, title: '콜드체인 AI 최적화 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2039, title: '탄소 중립 물류 전략가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2040, title: '도심 물류 드론 관제사', status: '등장' },
+  { industry: '운수 및 창고업', year: 2041, title: '자율 선박 원격 감독 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2043, title: '물류 AI 알고리즘 설계자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2044, title: '탈탄소 해운 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2045, title: '행성 간 화물 운송 기획자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2046, title: '생체 인식 물류 보안 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2047, title: '에너지 자립 물류 기지 운영자', status: '등장' },
+  { industry: '운수 및 창고업', year: 2048, title: '양자 통신 물류 관제사', status: '등장' },
+  { industry: '운수 및 창고업', year: 2049, title: '우주 화물 적재 전문가', status: '등장' },
+  { industry: '운수 및 창고업', year: 2050, title: '우주 물류 교통 통제관', status: '등장' },
+
+  // [공공행정 및 국방 - 신규 2031~2050]
+  { industry: '공공행정 및 국방', year: 2031, title: '디지털 복지 서비스 기획자', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2032, title: 'AI 행정 시스템 감독 전문관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2033, title: '스마트도시 안전 관제 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2034, title: '사이버 전쟁 대응 전략가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2035, title: '자율 드론 방위 운영자', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2036, title: '우주 안보 정책 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2037, title: '기후 난민 지원 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2038, title: '디지털 국경 관리 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2039, title: '사회 취약계층 AI 지원 전문관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2040, title: '자율 무기 윤리 감독관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2041, title: '금융 범죄 AI 수사관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2042, title: '글로벌 AI 거버넌스 외교관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2043, title: '도시 탄소 예산 관리 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2044, title: '공공 양자 보안 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2045, title: '지구 행성 거버넌스 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2046, title: '인구 감소 대응 정책 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2047, title: '뇌 데이터 개인정보 보호관', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2048, title: '사이보그 시민권 행정 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2049, title: '생태계 복원 정책 전문가', status: '등장' },
+  { industry: '공공행정 및 국방', year: 2050, title: '우주 정착지 행정 전문관', status: '등장' },
+
+  // [제조업 - 신규 2031~2050]
+  { industry: '제조업', year: 2031, title: '그린 수소 생산 기술자', status: '등장' },
+  { industry: '제조업', year: 2032, title: '산업용 AI 로봇 프로그래머', status: '등장' },
+  { industry: '제조업', year: 2033, title: '디지털 트윈 생산 최적화 전문가', status: '등장' },
+  { industry: '제조업', year: 2034, title: '바이오 소재 제조 전문가', status: '등장' },
+  { industry: '제조업', year: 2035, title: '초정밀 나노 제조 기술자', status: '등장' },
+  { industry: '제조업', year: 2036, title: '우주 제조 환경 전문가', status: '등장' },
+  { industry: '제조업', year: 2039, title: '재활용 소재 공정 전문가', status: '등장' },
+  { industry: '제조업', year: 2040, title: '뇌신경 모사 반도체 연구원', status: '등장' },
+  { industry: '제조업', year: 2041, title: '우주 광물 정제 기술자', status: '등장' },
+  { industry: '제조업', year: 2042, title: '원자 수준 소재 설계사', status: '등장' },
+  { industry: '제조업', year: 2043, title: '자가 치유 소재 연구원', status: '등장' },
+  { industry: '제조업', year: 2044, title: '양자 소재 엔지니어', status: '등장' },
+  { industry: '제조업', year: 2045, title: '4D 프린팅 전문가', status: '등장' },
+  { industry: '제조업', year: 2046, title: '생체 모방 제조 연구원', status: '등장' },
+  { industry: '제조업', year: 2047, title: '소행성 채굴 기술자', status: '등장' },
+  { industry: '제조업', year: 2048, title: '초전도 소재 응용 전문가', status: '등장' },
+  { industry: '제조업', year: 2049, title: '바이오프린팅 의료 부품 전문가', status: '등장' },
+  { industry: '제조업', year: 2050, title: '행성 자원 활용 제조 전문가', status: '등장' },
+
+  // [교육서비스업 - 신규 2031~2050]
+  { industry: '교육서비스업', year: 2031, title: '개인화 학습 경험 설계자', status: '등장' },
+  { industry: '교육서비스업', year: 2032, title: 'AI 튜터 시스템 개발자', status: '등장' },
+  { industry: '교육서비스업', year: 2033, title: '감성 교육 기술 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2034, title: '몰입형 교육 콘텐츠 제작자', status: '등장' },
+  { industry: '교육서비스업', year: 2035, title: '직업 전환 교육 설계 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2036, title: '뇌파 기반 학습 분석가', status: '등장' },
+  { industry: '교육서비스업', year: 2038, title: '다중 언어 AI 교육 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2040, title: '학습 동기 부여 전문 코치', status: '등장' },
+  { industry: '교육서비스업', year: 2041, title: '신경 교육학 연구원', status: '등장' },
+  { industry: '교육서비스업', year: 2042, title: '사회 정서 AI 교육 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2044, title: '미래 역량 교육과정 개발자', status: '등장' },
+  { industry: '교육서비스업', year: 2045, title: '기억 강화 학습 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2046, title: '인간-AI 협업 역량 훈련사', status: '등장' },
+  { industry: '교육서비스업', year: 2047, title: '노인 디지털 역량 교육자', status: '등장' },
+  { industry: '교육서비스업', year: 2048, title: '인간 본질·철학 교육 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2049, title: '창의성 연구 및 교육 전문가', status: '등장' },
+  { industry: '교육서비스업', year: 2050, title: '포스트 휴먼 교육 철학자', status: '등장' },
 ];
 
 const JOB_MAP: Record<string, typeof RAW_JOBS> = {};
@@ -646,6 +803,7 @@ const STATUS_STYLE: Record<string, { pill: string; badge: string; filterPill?: s
   등장: { pill: 'bg-brand-appearance-50 text-brand-appearance border border-brand-appearance', badge: 'bg-ui-bg-card/80 text-brand-appearance' },
   확산: { pill: 'bg-brand-spread-50 text-brand-spread border border-brand-spread',          badge: 'bg-ui-bg-card/80 text-brand-spread' },
   위험: { pill: 'bg-brand-threat-50 text-brand-threat border border-brand-threat',         badge: 'bg-ui-bg-card/80 text-brand-threat'    },
+  위협: { pill: 'bg-brand-threat-50 text-brand-threat border border-brand-threat',         badge: 'bg-ui-bg-card/80 text-brand-threat'    },
   소멸: { 
     pill: 'bg-brand-extinction-100 text-yellow-600 border border-brand-extinction', 
     badge: 'bg-ui-bg-card/80 text-yellow-600',
@@ -798,6 +956,32 @@ const Heatmap = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineScrollRef = useRef<HTMLDivElement>(null);
 
+  const [hoveredJob, setHoveredJob] = useState<{
+    title: string;
+    description: string;
+    rect: { left: number; top: number; width: number; height: number };
+  } | null>(null);
+
+  const handleMouseEnterJob = (e: React.MouseEvent<HTMLElement>, title: string) => {
+    const desc = JOB_DESCRIPTIONS[title];
+    if (!desc) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHoveredJob({
+      title,
+      description: desc,
+      rect: {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+      },
+    });
+  };
+
+  const handleMouseLeaveJob = () => {
+    setHoveredJob(null);
+  };
+
   const activeStoryline = STORYLINES.find(s => s.id === activeStorylineId);
   const autoScrollRef = useRef<boolean>(false);
 
@@ -893,7 +1077,9 @@ const Heatmap = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     // Run once on mount
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -961,7 +1147,7 @@ const Heatmap = () => {
 
   let filteredSidebarJobs = ALL_SIDEBAR_JOBS;
   if (activeFilter) {
-    filteredSidebarJobs = filteredSidebarJobs.filter(j => j.status === activeFilter);
+    filteredSidebarJobs = filteredSidebarJobs.filter(j => j.status === activeFilter || (activeFilter === '위험' && j.status === '위협'));
   }
   if (aiFilterActive) {
     filteredSidebarJobs = filteredSidebarJobs.filter(j => 
@@ -974,6 +1160,21 @@ const Heatmap = () => {
     );
   }
   const sidebarRemaining = filteredSidebarJobs.filter(j => j.year >= cutoffYear);
+
+  let tooltipLeft = 0;
+  let tooltipBelow = false;
+  if (hoveredJob) {
+    tooltipBelow = hoveredJob.rect.top < 155;
+    const halfWidth = 144; // w-72 is 288px / 2 = 144px
+    const padding = 16;
+    let computedLeft = hoveredJob.rect.left + hoveredJob.rect.width / 2;
+    if (computedLeft - halfWidth < padding) {
+      computedLeft = halfWidth + padding;
+    } else if (computedLeft + halfWidth > (typeof window !== 'undefined' ? window.innerWidth : 800) - padding) {
+      computedLeft = (typeof window !== 'undefined' ? window.innerWidth : 800) - halfWidth - padding;
+    }
+    tooltipLeft = computedLeft;
+  }
 
   return (
     <div className="bg-ui-bg-card w-full min-h-screen text-ui-text-primary font-sans m-0 p-0 flex flex-col relative">
@@ -1148,9 +1349,11 @@ const Heatmap = () => {
                                 className={`bg-ui-bg-card border border-ui-border/80 rounded px-1.5 py-2 cursor-pointer hover:border-ui-border hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all
                                   ${animationClasses}
                                   ${isAbsorbed ? 'opacity-20 grayscale scale-95' : 'opacity-100 scale-100'}`}
+                                onMouseEnter={(e) => handleMouseEnterJob(e, j.title)}
+                                onMouseLeave={handleMouseLeaveJob}
                               >
                                 <span className="block text-[9px] md:text-[10px] font-semibold text-[#4D4D4D] leading-tight break-keep text-center">
-                                  {j.title}
+                                  {j.title}{JOB_DESCRIPTIONS[j.title] ? '*' : ''}
                                 </span>
                               </div>
                             );
@@ -1204,24 +1407,9 @@ const Heatmap = () => {
 
         <div className="w-full flex justify-center mb-12">
           <div className="flex flex-col items-center gap-4">
-            <div className="flex flex-col items-start gap-2 bg-ui-bg-card p-4 rounded-md border border-ui-border">
-              <div className="flex flex-wrap items-center gap-4 text-sm">
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(248,105,107,0.5)]" /> 1점: 역대 최저권</div>
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(251,170,119,0.5)]" /> 2점: 하위권</div>
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(255,235,132,0.5)]" /> 3점: 중간권</div>
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(177,213,128,0.5)]" /> 4점: 상위권</div>
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(99,190,123,0.5)]" /> 5점: 역대 최고권</div>
-              </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm mt-1">
-                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-ui-bg-card border border-ui-border" /> 빈칸: 해당 시기 데이터 없음</div>
-                <div className="flex items-center gap-1.5 text-ui-text-secondary">
-                  | <span className="font-bold text-ui-text-secondary">산업별 취업자 수</span> 기반
-                </div>
-              </div>
-            </div>
             
             {/* Filter Buttons & Storylines Filter Section */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mt-2 w-full max-w-6xl px-4 z-40 relative">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 w-full max-w-6xl px-4 z-40 relative">
               {/* Status Filters: 등장/확산/위험/소멸 */}
               <div className="flex flex-wrap items-center justify-center gap-1.5 bg-[#F8F9FA]/90 p-1 rounded-full border border-[#EDEDED] shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
                 <button 
@@ -1338,6 +1526,22 @@ const Heatmap = () => {
               </div>
             </div>
 
+            <div className="flex flex-col items-start gap-2 bg-ui-bg-card p-4 rounded-md border border-ui-border mt-2">
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(248,105,107,0.5)]" /> 1점: 역대 최저권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(251,170,119,0.5)]" /> 2점: 하위권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(255,235,132,0.5)]" /> 3점: 중간권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(177,213,128,0.5)]" /> 4점: 상위권</div>
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-[rgba(99,190,123,0.5)]" /> 5점: 역대 최고권</div>
+              </div>
+              <div className="flex flex-wrap items-center gap-4 text-sm mt-1">
+                <div className="flex items-center gap-1.5"><span className="w-3 h-3 block bg-ui-bg-card border border-ui-border" /> 빈칸: 해당 시기 데이터 없음</div>
+                <div className="flex items-center gap-1.5 text-ui-text-secondary">
+                  | <span className="font-bold text-ui-text-secondary">산업별 취업자 수</span> 기반
+                </div>
+              </div>
+            </div>
+
             {activeStoryline && (
               <div className="bg-ui-bg-main border border-ui-border p-4 rounded-lg text-center animate-fade-in w-full max-w-5xl z-40 relative mt-2">
                 <p className="text-ui-text-primary font-bold text-sm md:text-base">
@@ -1435,7 +1639,7 @@ const Heatmap = () => {
 
                       let jobsHere = JOB_MAP[`${ind.name}|${d.year}`] ?? [];
                       if (activeFilter) {
-                        jobsHere = jobsHere.filter(j => j.status === activeFilter);
+                        jobsHere = jobsHere.filter(j => j.status === activeFilter || (activeFilter === '위험' && j.status === '위협'));
                       }
                       if (aiFilterActive) {
                         jobsHere = jobsHere.filter(j => 
@@ -1502,11 +1706,13 @@ const Heatmap = () => {
                                       id={jobId}
                                       className={`relative group/job flex flex-col items-center justify-center gap-1.5 text-[9px] md:text-[10px] px-2 py-2 rounded-[5px] border leading-tight font-semibold whitespace-normal break-words w-full h-fit ${ss.pill} shadow-sm ${chipAnimClass} transition-all duration-300 hover:-translate-y-0.5 ${dimOpacity} ${highlightStyle}`}
                                       style={chipAnimStyle}
+                                      onMouseEnter={(e) => handleMouseEnterJob(e, j.title)}
+                                      onMouseLeave={handleMouseLeaveJob}
                                     >
                                       <span className={`px-1.5 py-[2px] rounded-[3px] text-[6px] md:text-[7px] font-black shrink-0 shadow-sm leading-none flex items-center justify-center whitespace-nowrap ${ss.badge}`}>
                                         {j.status}
                                       </span>
-                                      <span className="leading-snug break-words min-w-0 text-center whitespace-normal">{j.title}</span>
+                                      <span className="leading-snug break-words min-w-0 text-center whitespace-normal">{j.title}{JOB_DESCRIPTIONS[j.title] ? '*' : ''}</span>
                                     </div>
                                     {isHighlighted && (
                                       <div 
@@ -1550,6 +1756,37 @@ const Heatmap = () => {
         <span>Back to top</span>
       </button>
     )}
+
+    {/* Floating Job Description Tooltip */}
+    <AnimatePresence>
+      {hoveredJob && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.12, ease: 'easeOut' }}
+          className={`fixed z-[9999] pointer-events-none w-72 p-3.5 rounded-xl border border-white/10 bg-[#121212]/95 text-slate-100 shadow-2xl backdrop-blur-md -translate-x-1/2 ${
+            tooltipBelow ? 'translate-y-0' : '-translate-y-full'
+          }`}
+          style={{
+            left: tooltipLeft,
+            top: tooltipBelow
+              ? hoveredJob.rect.top + hoveredJob.rect.height + 8
+              : hoveredJob.rect.top - 8,
+            transformOrigin: tooltipBelow ? 'top center' : 'bottom center'
+          }}
+        >
+          <div className="text-center">
+            <h5 className="font-extrabold text-[12px] text-sky-400 mb-1.5 tracking-wide uppercase select-none">
+              {hoveredJob.title}
+            </h5>
+            <p className="text-[11px] leading-relaxed text-slate-200 font-medium whitespace-normal break-keep">
+              {hoveredJob.description}
+            </p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
     </div>
   );

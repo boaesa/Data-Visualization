@@ -504,7 +504,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
         </p>
         <p className="text-[15px] md:text-lg font-normal text-white leading-relaxed opacity-95">
           AI 시대에 나는 살아남을 수 있을까? 막연한 불안감은 잠시 안녕!<br className="hidden md:block" />
-          간단하 테스트로 나를 기다리고 있는 환승직업을 매칭해 드릴게요.
+          간단한 테스트로 나를 기다리고 있는 환승직업을 매칭해 드릴게요.
         </p>
       </div>
 
