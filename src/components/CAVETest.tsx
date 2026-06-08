@@ -421,8 +421,18 @@ export default function CAVETest() {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers,  setAnswers]  = useState<Record<string, string[]>>({});
 
-  const handleStart  = () => { setCurrentQ(0); setAnswers({}); setScreen("test"); };
-  const handleRetry  = () => { setCurrentQ(0); setAnswers({}); setScreen("intro"); };
+  const handleStart  = () => {
+    setCurrentQ(0);
+    setAnswers({});
+    setScreen("test");
+    window.scrollTo(0, 0);
+  };
+  const handleRetry  = () => {
+    setCurrentQ(0);
+    setAnswers({});
+    setScreen("intro");
+    window.scrollTo(0, 0);
+  };
 
   const handleAnswer = (value: string) => {
     const q = QUESTIONS[currentQ];
@@ -432,6 +442,7 @@ export default function CAVETest() {
       setCurrentQ(currentQ + 1);
     } else {
       setScreen("result");
+      window.scrollTo(0, 0);
     }
   };
 
