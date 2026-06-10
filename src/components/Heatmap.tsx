@@ -1009,6 +1009,16 @@ const Heatmap = () => {
   }, [activeStorylineId]);
 
   useEffect(() => {
+    const handleGlobalClick = () => {
+      setHoveredJob(null);
+    };
+    window.addEventListener('click', handleGlobalClick);
+    return () => {
+      window.removeEventListener('click', handleGlobalClick);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!activeStorylineId || !timelineRef.current || !activeStoryline) {
       setStorylinePoints([]);
       return;
@@ -1681,52 +1691,75 @@ const Heatmap = () => {
                             </div>
                           )}
 
-                          {showJobs && (
-                            <div className="relative z-10 flex flex-col gap-1.5 px-0.5 mt-auto pb-1.5 w-full">
-                              {jobsHere.map((j, ji) => {
-                                const ss = STATUS_STYLE[j.status] ?? STATUS_STYLE['등장'];
-                                const currentIndex = rowJobIndex++;
-                                
-                                const storyMatch = activeStoryline?.jobs.find(
-                                  sj => sj.year === d.year && sj.industry === ind.name && sj.title === j.title
-                                );
-                                const isHighlighted = !!storyMatch;
-                                
-                                const isStorylineActive = !!activeStorylineId;
-                                const dimOpacity = (isStorylineActive && !isHighlighted) ? 'hidden' : 'opacity-100';
-                                const highlightStyle = isHighlighted ? 'shadow-md scale-105 z-50' : 'z-20';
-                                
-                                const chipAnimClass = (activeFilter === null && !isStorylineActive) ? 'animate-chip-enter' : '';
-                                const chipAnimStyle = (activeFilter === null && !isStorylineActive) ? { animationDelay: `${currentIndex * 40}ms` } : {};
-                                const jobId = `job-tl-${j.year}-${j.industry}-${encodeURIComponent(j.title)}`;
-                                
-                                return (
-                                  <React.Fragment key={ji}>
-                                    <div
-                                      id={jobId}
-                                      className={`relative group/job flex flex-col items-center justify-center gap-1.5 text-[9px] md:text-[10px] px-2 py-2 rounded-[5px] border leading-tight font-semibold whitespace-normal break-words w-full h-fit ${ss.pill} shadow-sm ${chipAnimClass} transition-all duration-300 hover:-translate-y-0.5 ${dimOpacity} ${highlightStyle}`}
-                                      style={chipAnimStyle}
-                                      onMouseEnter={(e) => handleMouseEnterJob(e, j.title)}
-                                      onMouseLeave={handleMouseLeaveJob}
-                                    >
-                                      <span className={`px-1.5 py-[2px] rounded-[3px] text-[6px] md:text-[7px] font-black shrink-0 shadow-sm leading-none flex items-center justify-center whitespace-nowrap ${ss.badge}`}>
-                                        {j.status}
-                                      </span>
-                                      <span className="leading-snug break-words min-w-0 text-center whitespace-normal">{j.title}{JOB_DESCRIPTIONS[j.title] ? '*' : ''}</span>
-                                    </div>
-                                    {isHighlighted && (
-                                      <div 
-                                        className={`bg-[#727272] text-white text-[8px] md:text-[10px] p-2 md:p-2.5 rounded-md w-full text-center z-40 shadow-md pointer-events-none mb-4 -mt-0.5 ${chipAnimClass}`}
+                          <AnimatePresence initial={false}>
+                            {showJobs && (
+                              <motion.div
+                                key="jobs-container"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                className="relative z-10 flex flex-col gap-1.5 px-0.5 mt-auto pb-1.5 w-full overflow-hidden"
+                              >
+                                {jobsHere.map((j, ji) => {
+                                  const ss = STATUS_STYLE[j.status] ?? STATUS_STYLE['등장'];
+                                  const currentIndex = rowJobIndex++;
+                                  
+                                  const storyMatch = activeStoryline?.jobs.find(
+                                    sj => sj.year === d.year && sj.industry === ind.name && sj.title === j.title
+                                  );
+                                  const isHighlighted = !!storyMatch;
+                                  
+                                  const isStorylineActive = !!activeStorylineId;
+                                  const dimOpacity = (isStorylineActive && !isHighlighted) ? 'hidden' : 'opacity-100';
+                                  const highlightStyle = isHighlighted ? 'shadow-md scale-105 z-50' : 'z-20';
+                                  
+                                  const chipAnimClass = (activeFilter === null && !isStorylineActive) ? 'animate-chip-enter' : '';
+                                  const chipAnimStyle = (activeFilter === null && !isStorylineActive) ? { animationDelay: `${currentIndex * 40}ms` } : {};
+                                  const jobId = `job-tl-${j.year}-${j.industry}-${encodeURIComponent(j.title)}`;
+                                  
+                                  return (
+                                    <React.Fragment key={ji}>
+                                      <div
+                                        id={jobId}
+                                        className={`relative group/job flex flex-col items-center justify-center gap-1.5 text-[9px] md:text-[10px] px-2 py-2 rounded-[5px] border leading-tight font-semibold whitespace-normal break-words w-full h-fit ${ss.pill} shadow-sm ${chipAnimClass} transition-all duration-300 hover:-translate-y-0.5 ${dimOpacity} ${highlightStyle} ${
+                                          JOB_DESCRIPTIONS[j.title]
+                                            ? 'cursor-pointer hover:border-ui-border hover:shadow-md'
+                                            : 'cursor-default'
+                                        }`}
                                         style={chipAnimStyle}
+                                        onMouseEnter={(e) => handleMouseEnterJob(e, j.title)}
+                                        onMouseLeave={handleMouseLeaveJob}
+                                        onClick={(e) => {
+                                          if (JOB_DESCRIPTIONS[j.title]) {
+                                            e.stopPropagation();
+                                            if (hoveredJob && hoveredJob.title === j.title) {
+                                              setHoveredJob(null);
+                                            } else {
+                                              handleMouseEnterJob(e as unknown as React.MouseEvent<HTMLElement>, j.title);
+                                            }
+                                          }
+                                        }}
                                       >
-                                        <span className="font-medium whitespace-normal break-keep leading-tight">{storyMatch.desc}</span>
+                                        <span className={`px-1.5 py-[2px] rounded-[3px] text-[6px] md:text-[7px] font-black shrink-0 shadow-sm leading-none flex items-center justify-center whitespace-nowrap ${ss.badge}`}>
+                                          {j.status}
+                                        </span>
+                                        <span className="leading-snug break-words min-w-0 text-center whitespace-normal">{j.title}{JOB_DESCRIPTIONS[j.title] ? '*' : ''}</span>
                                       </div>
-                                    )}
-                                  </React.Fragment>
-                                );
-                              })}
-                            </div>
-                          )}
+                                      {isHighlighted && (
+                                        <div 
+                                          className={`bg-[#727272] text-white text-[8px] md:text-[10px] p-2 md:p-2.5 rounded-md w-full text-center z-40 shadow-md pointer-events-none mb-4 -mt-0.5 ${chipAnimClass}`}
+                                          style={chipAnimStyle}
+                                        >
+                                          <span className="font-medium whitespace-normal break-keep leading-tight">{storyMatch.desc}</span>
+                                        </div>
+                                      )}
+                                    </React.Fragment>
+                                  );
+                                })}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       );
                     })}

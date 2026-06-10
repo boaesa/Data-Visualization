@@ -22,6 +22,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { motion } from 'motion/react';
 import Heatmap from './components/Heatmap';
 import CAVETest from './components/CAVETest';
 
@@ -140,12 +141,24 @@ export default function App() {
       {/* Background Section */}
       <section id="background" className="py-24 bg-ui-bg-card border-y border-ui-border">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center mb-16"
+          >
             <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Background</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">프로젝트 배경</h2>
-          </div>
+          </motion.div>
           
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 40, scale: 0.96 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <div className="w-full max-w-[800px] aspect-[16/9] bg-black rounded-[32px] overflow-hidden border border-[#EDEDED] shadow-md">
               <iframe
                 id="youtube-project-background-video"
@@ -156,7 +169,7 @@ export default function App() {
                 allowFullScreen
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -166,14 +179,39 @@ export default function App() {
       {/* Sources Section */}
       <section id="sources" className="py-24 bg-[#F5F5F7] border-t border-ui-border">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center mb-16"
+          >
             <span className="text-[#2699F6] font-semibold tracking-wider text-[16px] uppercase">Sources</span>
             <h2 className="text-[28px] md:text-[32px] font-bold mt-2 leading-[1.25]">출처</h2>
-          </div>
+          </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+          >
             {/* Source 1 */}
-            <div className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 16 } }
+              }}
+              className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-[22px] font-bold text-[#444444] leading-tight mb-1">국가통계포털</h3>
@@ -192,10 +230,16 @@ export default function App() {
                   <ArrowUpRight className="w-5 h-5" />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Source 2 */}
-            <div className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 16 } }
+              }}
+              className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-[22px] font-bold text-[#444444] leading-tight mb-1">통계청</h3>
@@ -214,10 +258,16 @@ export default function App() {
                   <ArrowUpRight className="w-5 h-5" />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Source 3 */}
-            <div className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 16 } }
+              }}
+              className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-[22px] font-bold text-[#444444] leading-tight mb-1">지표누리</h3>
@@ -236,10 +286,16 @@ export default function App() {
                   <ArrowUpRight className="w-5 h-5" />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Source 4 */}
-            <div className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 16 } }
+              }}
+              className="bg-white rounded-[32px] p-8 flex flex-col min-h-[280px] shadow-sm relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-[22px] font-bold text-[#444444] leading-tight mb-1">NCS 국가직무능력표준</h3>
@@ -258,8 +314,8 @@ export default function App() {
                   <ArrowUpRight className="w-5 h-5" />
                 </a>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
