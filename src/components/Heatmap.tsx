@@ -16,6 +16,11 @@ const INDUSTRIES = [
   { id: 'P', name: '교육서비스업',         keyword: 'school,classroom'    },
 ];
 
+const DECADES = [
+  1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950,
+  1960, 1970, 1980, 1990, 2000, 2010, 2020, 2030, 2040, 2050
+];
+
 const EVENT_LIST = [
   // [정보통신업]
   { industry: '정보통신업', year: 1885, title: '한성~인천 전신 개통' },
@@ -982,6 +987,26 @@ const Heatmap = () => {
     setHoveredJob(null);
   };
 
+  const handleYearJump = (year: number) => {
+    autoScrollRef.current = true;
+    setCutoffYear(year);
+
+    setTimeout(() => {
+      const el = document.querySelector(`[data-year="${year}"]`);
+      if (el) {
+        const yOffset = -(window.innerHeight * 0.4) + 50; 
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        
+        setTimeout(() => {
+          autoScrollRef.current = false;
+        }, 1200);
+      } else {
+        autoScrollRef.current = false;
+      }
+    }, 100);
+  };
+
   const activeStoryline = STORYLINES.find(s => s.id === activeStorylineId);
   const autoScrollRef = useRef<boolean>(false);
 
@@ -1562,7 +1587,37 @@ const Heatmap = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-7xl mx-auto flex gap-0 relative z-10 px-2 md:px-4">
+        <div className="w-full max-w-7xl mx-auto flex gap-2 md:gap-5 relative z-10 px-2 md:px-4">
+          {/* Decadal Jump Pills Sidebar (10년 단위 연도 바로가기) */}
+          <div 
+            className="flex flex-col gap-1 md:gap-1.5 sticky top-[185px] self-start px-0.5 select-none w-10 sm:w-11 md:w-16 shrink-0 z-40 overflow-y-auto relative -left-[20px] top-[20px]"
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              maxHeight: 'calc(100vh - 215px)'
+            }}
+          >
+            {DECADES.map(y => {
+              const activeDecadeRaw = Math.floor(cutoffYear / 10) * 10;
+              const activeDecade = activeDecadeRaw < 1880 ? 1880 : activeDecadeRaw;
+              const active = activeDecade === y;
+              return (
+                <button
+                  type="button"
+                  key={y}
+                  onClick={() => handleYearJump(y)}
+                  className={`text-[10px] md:text-[12px] font-medium py-1 px-0.5 rounded transition-all duration-200 transform active:scale-95 text-center ${
+                    active 
+                      ? 'text-[#2699F6] font-extrabold bg-[#2699F6]/10 dark:bg-[#2699F6]/20' 
+                      : 'bg-transparent text-neutral-400 dark:text-neutral-500 hover:text-neutral-800 hover:bg-neutral-100/60 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/40'
+                  }`}
+                >
+                  {y}
+                </button>
+              );
+            })}
+          </div>
+
           <div ref={timelineRef} className="flex-1 min-w-0 relative pt-2 z-10">
             
             {/* Storyline Vertical Connection Line Overlay */}
