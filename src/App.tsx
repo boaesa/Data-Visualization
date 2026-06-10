@@ -146,16 +146,15 @@ export default function App() {
           </div>
           
           <div className="flex justify-center">
-            <div className="w-full max-w-[800px] aspect-[16/9] bg-gray-200 border border-gray-300 rounded-[32px] flex flex-col justify-center items-center text-[#8E8E93] p-10 font-sans shadow-inner">
-              <div className="w-16 h-16 rounded-full bg-gray-300/60 flex items-center justify-center mb-4 text-[#8E8E93]">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.25 5.5a8.25 8.25 0 11-16.5 0 8.25 8.25 0 0116.5 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.25 5.5H22m-2.25-3v6" />
-                </svg>
-              </div>
-              <h4 className="text-[18px] font-bold text-gray-700 mb-2">Video Placeholder</h4>
-              <p className="text-sm text-center mb-1 text-gray-500">1920 × 1080 크기의 영상이 들어갈 공간입니다.</p>
-              <p className="text-xs text-gray-400 font-mono">Aspect Ratio 16:9 (Landscape)</p>
+            <div className="w-full max-w-[800px] aspect-[16/9] bg-black rounded-[32px] overflow-hidden border border-[#EDEDED] shadow-md">
+              <iframe
+                id="youtube-project-background-video"
+                className="w-full h-full border-0"
+                src="https://www.youtube.com/embed/5O-iA-M7jpQ?autoplay=0&rel=0"
+                title="프로젝트 배경 설명 영상"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
